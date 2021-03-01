@@ -3,8 +3,10 @@ install.packages("sequenza")
 
 # Load package
 library(sequenza)
+library(tidyverse)
 
-# In the package is provided a small seqz file
+# In the package is provided a small seqz file, we can use that (it is obtained
+# from a BAM, see the Sequenza website if your are interested)
 data.file <-
   system.file("extdata", "example.seqz.txt.gz", package = "sequenza")
 
@@ -14,7 +16,7 @@ data.file <-
 # - sequenza.fit: run grid-search approach to estimate cellularity and ploidy
 # - sequenza.results: write files and plots using suggested or selected solution
 #
-# run them in sequence.
+# which run in sequence.
 
 # Extract the information from the object
 test <- sequenza.extract(data.file, verbose = FALSE)
@@ -29,13 +31,32 @@ BAFs %>%
   geom_point() +
   facet_wrap(~chr, scales = 'free_x')
 
-# Sequenza fit (example chromosome 10 used only for the model)
-CP <- sequenza.fit(test, chromosome.list = 10)
+# Sequenza fit (example chromosomes 1 and 10 used for the model, 1 is large)
+CP <- sequenza.fit(test, chromosome.list = c(1,10))
+CP
+
+require(pheatmap)
+
+pheatmap(
+  CP$lpp,
+  cluster_rows = FALSE,
+  cluster_cols = FALSE,
+  border_color = NA,
+  color = RColorBrewer::brewer.pal(n = 8, "Reds")
+)
 
 # Write results
 sequenza.results(sequenza.extract = test,
-                 cp.table = CP, sample.id = "Test",
-                 out.dir="TEST")
+                 cp.table = CP, 
+                 sample.id = "Test_Sample_Sequenza",
+                 out.dir="Test_Sample_Sequenza")
+
+# Loading mutation data
+mutations = readr::read_tsv('Test_Sample_Sequenza/Test_Sample_Sequenza_mutations.txt')
+
+ggplot(mutations,
+       aes(`F`, fill = CNt %>% paste)) +
+  geom_histogram(binwidth = 0.01)
 
 # More details on what happens inside Sequenza
 
