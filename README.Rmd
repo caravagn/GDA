@@ -31,6 +31,22 @@ _MSc program in Data Science and Scientific Computing. University of Trieste, It
 
 ## Program
 
+| Lecturer   | Title       |
+|:----------|:-------------|
+| Caravagna |  _Variant calling from bulk sequencing_ |
+| Caravagna |   _Measuring aneuploidy from bulk sequencing_ |
+| Caravagna |  _Integrated quality control of somatic calls_ |
+| Bergamin |   _Population genetics for cancer_ |
+| Caravagna |  _Tumour subclonal deconvolution_ |
+| Ramazzotti |   _Somatic mutational signatures_ |
+| Bergamin, Milite |   _Basics of Single-cell RNA analysis_ |
+| Graudenzi |   _Longitudinal evolution from single cell_ |
+| Milite |   _Count-based models for single-cell data_ |
+| Caravagna |  _Evolutionary based stratifications_ |
+| Caravagna |  _Population-level models_ |
+
+***
+
 - Course presentation: 
 
     - Cancer Evolution, 

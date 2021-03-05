@@ -21,6 +21,22 @@ Trieste, Italy*
 
 ## Program
 
+| Lecturer         | Title                                         |
+|:-----------------|:----------------------------------------------|
+| Caravagna        | *Variant calling from bulk sequencing*        |
+| Caravagna        | *Measuring aneuploidy from bulk sequencing*   |
+| Caravagna        | *Integrated quality control of somatic calls* |
+| Bergamin         | *Population genetics for cancer*              |
+| Caravagna        | *Tumour subclonal deconvolution*              |
+| Ramazzotti       | *Somatic mutational signatures*               |
+| Bergamin, Milite | *Basics of Single-cell RNA analysis*          |
+| Graudenzi        | *Longitudinal evolution from single cell*     |
+| Milite           | *Count-based models for single-cell data*     |
+| Caravagna        | *Evolutionary based stratifications*          |
+| Caravagna        | *Population-level models*                     |
+
+------------------------------------------------------------------------
+
 -   Course presentation:
 
     -   Cancer Evolution,
