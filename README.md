@@ -17,9 +17,15 @@ Trieste, Italy*
 -   Dr Salvatore Milite, University of Trieste
 -   Dr Riccardo Bergamin, University of Trieste
 
+------------------------------------------------------------------------
+
 ### Part 1 - Somatic calling from bulk sequencing
 
-**Lecture:** Variant calling from bulk sequencing
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+**Lecture:** *Variant calling from bulk sequencing*
 
 -   (Theory) Introduction to the course:
 
@@ -42,13 +48,26 @@ Trieste, Italy*
 
 -   Readings
 
-    -   JointSNVMix
-    -   Strelka2
-    -   Mutect2
-    -   Platypus
-    -   GTK
+    -   (tool) Roth, Andrew, et al. “JointSNVMix: a probabilistic model
+        for accurate detection of somatic mutations in normal/tumour
+        paired next-generation sequencing data.” Bioinformatics 28.7
+        (2012): 907-913.
+    -   (tool) Kim, Sangtae, et al. “Strelka2: fast and accurate calling
+        of germline and somatic variants.” Nature methods 15.8 (2018):
+        591-594.
+    -   (tool) Benjamin, David, et al. “Calling somatic snvs and indels
+        with mutect2.” BioRxiv (2019): 861054.
+    -   (tool) Rimmer, Andy, et al. “Integrating mapping-, assembly-and
+        haplotype-based approaches for calling variants in clinical
+        sequencing applications.” Nature genetics 46.8 (2014): 912-918.
+    -   (tool) GATK (Broad Institute)
+        -   Training: www.csc.fi/en/web/training/-/gatk2019
+        -   Lectures:
+            <https://www.youtube.com/watch?v=sM9cQPWwvn4&list=PLjiXAZO27elDHGlQwfd06r7coiFtpPkvI>
 
-**Lecture:** Measuring aneuploidy from bulk sequencing
+------------------------------------------------------------------------
+
+**Lecture:** *Measuring aneuploidy from bulk sequencing*
 
 -   (Theory) Aneuploidy and Copy Number calling:
 
@@ -91,24 +110,97 @@ Trieste, Italy*
     -   (coding)Total copy-number segmentation using CBS.
         <https://cran.r-project.org/web/packages/PSCBS/vignettes/CBS.pdf>
 
-Lecture
+------------------------------------------------------------------------
 
-    - (Theory) Quality check somatic calls with CNAqc, and CCFs
-    - (Practice) Implement mapping of SNVs to CNA segments, validate MSeq calls, identify good and bad samples from PCAWG
+**Lecture:** *Integrated quality control of somatic calls*
 
-—————
+-   (Theory) Validating mutations, copy number and tumour purity:
+
+    -   Cancer Cell Fractions
+    -   CNAqc
+    -   Tumour in Normal contamination (ideas)
+
+-   (Practice) Quality-control of Whole Genome Sequencing data:
+
+    -   Implement mapping of SNVs to CNA segments
+    -   Validate MSeq calls with CNAqc
+    -   Identify good and bad samples from PCAWG
+
+-   Readings
+
+    -   Househam, Jacob, William CH Cross, and Giulio Caravagna. “A
+        fully automated approach for quality control of cancer mutations
+        in the era of high-resolution whole genome sequencing.” bioRxiv
+        (2021).
+    -   Cmero, Marek, et al. “Inferring structural variant cancer cell
+        fraction.” Nature communications 11.1 (2020): 1-15.
+    -   Yuan, Ke, et al. “Ccube: a fast and robust method for estimating
+        cancer cell fractions.” bioRxiv (2018): 484402.
+
+------------------------------------------------------------------------
 
 # Parte 2 - mathematical modelling e inference from bulk
 
-Lecture
+------------------------------------------------------------------------
 
-    - (Theory) Branching process modelling (Riccardo)
-    - Synthetic tumour generation with TEMULATOR (https://t-heide.github.io/TEMULATOR/), inspecting VAF distributions for subclones that are about to sweep, or too small to detect), and example tumours from CHESS (https://github.com/sottorivalab/CHESS.cpp)
+------------------------------------------------------------------------
 
-Lecture
+**Lecture (R Bergamin):** *Population genetics models of growth*
 
-    - (Theory) Subclonal deconvolution with Pyclone e MOBSTER
-    - (Practice) Implementation of a Binomial mixture model in R, playing around with MOBSTER single-sample data and BMix.
+-   (Theory) Branching processes and other models
+
+    -   ….
+    -   ….
+    -   ….
+
+-   (Practice) Tumour growth simulation:
+
+    -   Synthetic tumour generation with TEMULATOR
+        (<https://t-heide.github.io/TEMULATOR/>),
+    -   Inspecting VAF distributions for subclones that are about to
+        sweep, or too small to detect
+    -   Example tumours from CHESS
+        (<https://github.com/sottorivalab/CHESS.cpp>)
+
+-   Readings
+
+    -   …
+    -   …
+
+------------------------------------------------------------------------
+
+**Lecture:** *Tumour subclonal deconvolution*
+
+-   (Theory) Subclonal deconvolution:
+
+    -   Tail modelling versus subclones
+    -   Read counts analysis
+    -   Multi-sample deconvolution
+
+-   (Practice) Deconvolution in practice
+
+    -   MOBSTER and BMix with single-sample data
+    -   MOBSTER and VIBER with multi-region data.
+
+-   Readings
+
+    -   Roth, Andrew, et al. “PyClone: statistical inference of clonal
+        population structure in cancer.” Nature methods 11.4 (2014):
+        396-398.
+    -   Gillis, Sierra, and Andrew Roth. “PyClone-VI: scalable inference
+        of clonal population structures using whole genome data.” BMC
+        bioinformatics 21.1 (2020): 1-16.
+    -   Miller, Christopher A., et al. “SciClone: inferring clonal
+        architecture and tracking the spatial and temporal patterns of
+        tumor evolution.” PLoS Comput Biol 10.8 (2014): e1003665.
+    -   Caravagna, Giulio, et al. “Subclonal reconstruction of tumors by
+        using machine learning and population genetics.” Nature Genetics
+        52.9 (2020): 898-907.
+    -   Caravagna, Giulio, et al. “The MOBSTER R package for tumour
+        subclonal deconvolution from bulk DNA whole-genome sequencing
+        data.” BMC bioinformatics 21.1 (2020): 1-11.
+
+------------------------------------------------------------------------
 
 Lecture
 
@@ -116,13 +208,32 @@ Lecture
     - Sample trees for MSeq
     - Full subclonal deconvolution with multi-region data
 
-Lecture
+------------------------------------------------------------------------
 
-    - (Theory) Mutational signatures (Daniele)
+**Lecture (D Ramazzotti):** *Mutational signatures and processes*
 
-—————
+-   (Theory) Deconvolution of signatures from SNVs :
+
+    -   …
+    -   …
+
+-   (Practice) Deconvolution in practice
+
+    -   …
+    -   …
+
+-   Readings
+
+    -   …
+    -   …
+
+------------------------------------------------------------------------
 
 # Part 3 - Single-cell genomics transcriptomics
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
 
 Lecture
 
