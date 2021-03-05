@@ -10,12 +10,23 @@ Trieste, Italy*
     practical session (40’ each).
 -   GitHub: <https://github.com/caravagn/GDA>
 
-### Invited lecturers
+## Invited lecturers
 
 -   Dr Alex Graudenzi, CNR.
 -   Dr Daniele Ramazzotti, University of Milan-Bicocca.
 -   Dr Salvatore Milite, University of Trieste
 -   Dr Riccardo Bergamin, University of Trieste
+
+------------------------------------------------------------------------
+
+## Program
+
+-   Course presentation:
+
+    -   Cancer Evolution,
+    -   Modern Genomics,
+    -   Single-cell.
+    -   Research at the CDSLab (www.caravagnalab.org).
 
 ------------------------------------------------------------------------
 
@@ -27,22 +38,14 @@ Trieste, Italy*
 
 **Lecture:** *Variant calling from bulk sequencing*
 
--   (Theory) Introduction to the course:
-
-    -   Cancer Evolution,
-    -   Modern Genomics,
-    -   Single-cell.
-    -   Research at the CDSLab (www.caravagnalab.org).
-
 -   (Theory) Mutation calling:
 
-    -   tumour-matched-normal design,
-    -   panel of normals (Binomial testing)
-    -   Joint Binomial probabilistic model
+    -   Tumour matched-normal design,
+    -   High-level design of GATK
+    -   Joint calling model
 
--   (Practice) R refresher, example VCF and PCAWG:
+-   (Practice) Example VCF and PCAWG:
 
-    -   Tidyverse
     -   VCF manipulation
     -   27 PCAWG cases (mutation types, burden, etc.)
 
@@ -71,7 +74,7 @@ Trieste, Italy*
 
 -   (Theory) Aneuploidy and Copy Number calling:
 
-    -   Why it matters
+    -   Motivation
     -   ASCAT model
     -   Segmentation
 
@@ -235,34 +238,145 @@ Lecture
 
 ------------------------------------------------------------------------
 
+**Lecture (R Bergamin, S Milite):** *Basics of Single-cell RNA analysis*
+
+-   (Theory) Single-cell RNA analysis
+
+    -   …
+    -   …
+
+-   (Practice) Seurat analysis
+
+    -   …
+    -   …
+
+-   Readings
+
+    -   …
+    -   …
+
+------------------------------------------------------------------------
+
 Lecture
 
-    - (Theory) Single-cell RNA analysis (Riccardo/Salvatore) {Seurat,Scanpy}
-    - Tutorial vignettes from the tools for scRNAseq
+**Lecture (A Graudenzi):** *Longitudinal evolution from single cell*
 
-Lecture
+-   (Theory) Principles of evolution from single-cell
 
-    - (Theory) Longitudinal evolution single cell (Alex) {SCITE longitudinal, LACE}
-    - Longitudinal evolution from scRNAseq
+    -   …
+    -   …
 
-Lecture
+-   (Practice) Inference in practice
 
-    - (Theory) Count-based modelling single-cell RNA (Salvatore) {clone align, CONGAS}
-    - CONGAS vignette from scRNAseq
+    -   …
+    -   …
 
-—————
+-   Readings
+
+    -   …
+    -   …
+
+------------------------------------------------------------------------
+
+**Lecture (D Ramazzotti):** *Somatic mutational signatures*
+
+-   (Theory) Deconvolution of signatures from SNVs :
+
+    -   …
+    -   …
+
+-   (Practice) Deconvolution in practice
+
+    -   …
+    -   …
+
+-   Readings
+
+    -   …
+    -   …
+
+------------------------------------------------------------------------
+
+**Lecture (S Milite):** *Count-based models for single-cell data*
+
+-   (Theory) Copy Number genotyping from single-cell RNA sequencing
+
+    -   …
+    -   …
+
+-   (Practice) Deconvolution in practice
+
+    -   …
+    -   …
+
+-   Readings
+
+    -   Milite, Salvatore, Riccardo Bergamin, and Giulio Caravagna.
+        “Genotyping Copy Number Alterations from single-cell RNA
+        sequencing.” bioRxiv (2021).
+    -   Fan, Jean, et al. “Linking transcriptional and genetic tumor
+        heterogeneity through allele analysis of single-cell RNA-seq
+        data.” Genome research 28.8 (2018): 1217-1227.
+    -   Harmanci, Akdes Serin, Arif O. Harmanci, and Xiaobo Zhou.
+        “CaSpER identifies and visualizes CNV events by integrative
+        analysis of single-cell or bulk RNA-sequencing data.” Nature
+        communications 11.1 (2020): 1-16.
+    -   Navin, Nicholas, et al. “Tumour evolution inferred by
+        single-cell sequencing.” Nature 472.7341 (2011): 90-94.
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
 
 # Part 4 - Population-level inference
 
-Lecture
+------------------------------------------------------------------------
 
-    - (Theory) Repeated evolution {REVOLVER}
-    - Analysis of TRACERx data and MSeq adenocarcinomas
+**Lecture:** *Evolutionary based stratifications*
 
-Lecture
+-   (Theory) Detecting repeated evolution from multi-region bulk
+    sequencing
 
-    - (Theory) Population-level models {Bayesian Networks models}
-    - Analysis of CODREAD with PICNIC
-    - Analysis of other cbio/TCGA datasets
+    -   Clone-trees and tree expansion
+    -   Expectation Maximisation for latent model discovery
+    -   Evolutionary distance and cluster
 
-—————
+-   (Practice) Inference in practice
+
+    -   Colorectal adenomas with REVOLVER
+    -   TRACERx Lung Adencarcinomas with REVOLVER
+
+-   Readings
+
+    -   Caravagna, Giulio, et al. “Detecting repeated cancer evolution
+        from multi-region tumor sequencing data.” Nature methods 15.9
+        (2018): 707-714.
+
+**Lecture:** *Population-level models*
+
+-   (Theory) Bayesian Networks models
+
+    -   Conjunctive Bayesian Networks
+    -   Suppes’ probabilistic causation
+
+-   (Practice) Inference in practice
+
+    -   Analysis of CODREAD with PICNIC
+    -   Analysis of other cbio data
+
+-   Readings
+
+    -   Beerenwinkel, Niko, Nicholas Eriksson, and Bernd Sturmfels.
+        “Conjunctive bayesian networks.” Bernoulli (2007): 893-909.
+    -   Gerstung, Moritz, et al. “Quantifying cancer progression with
+        conjunctive Bayesian networks.” Bioinformatics 25.21 (2009):
+        2809-2815.
+    -   Caravagna, Giulio, et al. “Algorithmic methods to infer the
+        evolutionary trajectories in cancer progression.” Proceedings of
+        the National Academy of Sciences 113.28 (2016): E4025-E4034.
+    -   Ramazzotti, Daniele, et al. “CAPRI: efficient inference of
+        cancer progression models from cross-sectional data.”
+        Bioinformatics 31.18 (2015): 3016-3026.
+    -   Loohuis, Loes Olde, et al. “Inferring tree causal models of
+        cancer progression with probability raising.” PloS one 9.10
+        (2014): e108358.
