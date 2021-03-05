@@ -1,19 +1,16 @@
-README
+Genomic Data Analytics (GDA)
 ================
 Giulio Caravagna (<gcaravagna@units.it>)
 3/5/2021
 
-# Genomic Data Analytics (GDA)
+*MSc program in Data Science and Scientific Computing. University of
+Trieste, Italy*
 
-G Caravagna University of Trieste, Italy
+-   3CFU - 24h, 12 lecture, 2 hours each. 50% theoretical lecture, 50%
+    practical session (40’ each).
+-   GitHub: <https://github.com/caravagn/GDA>
 
-Genome data analytics (G Caravagna)
-
-3CFU - 24h, 12 lecture, 2 hours each.
-
-Idea: 50% theoretical lecture, 50% practical session (40’ each).
-
-Lecturers:
+### Lecturers:
 
 -   Giulio x 3 + 1 +2
 -   Alex x 1

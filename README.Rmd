@@ -1,5 +1,5 @@
 ---
-title: "README"
+title: "Genomic Data Analytics (GDA)"
 author: "Giulio Caravagna (gcaravagna@units.it)"
 date: "3/5/2021"
 output: github_document
@@ -14,18 +14,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Genomic Data Analytics (GDA)
+_MSc program in Data Science and Scientific Computing. University of Trieste, Italy_
 
-G Caravagna
-University of Trieste, Italy
+- 3CFU - 24h, 12 lecture, 2 hours each. 50% theoretical lecture, 50% practical session (40’ each).
+- GitHub: https://github.com/caravagn/GDA
 
-Genome data analytics (G Caravagna)
-
-3CFU - 24h, 12 lecture, 2 hours each.
-
-Idea: 50% theoretical lecture, 50% practical session (40’ each).
-
-Lecturers:
+### Lecturers:
 
 - Giulio x 3 + 1 +2
 - Alex x 1
