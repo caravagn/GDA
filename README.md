@@ -10,7 +10,12 @@ Trieste, Italy*
     practical session (40’ each).
 -   GitHub: <https://github.com/caravagn/GDA>
 
-## Invited lecturers
+## Lecturers
+
+-   Dr Giulio Caravagna, [Cancer Data Science
+    Laboratory.](http://www.caravagnalab.org)
+
+**Invited guest lecturers**
 
 -   Dr Alex Graudenzi, CNR.
 -   Dr Daniele Ramazzotti, University of Milan-Bicocca.

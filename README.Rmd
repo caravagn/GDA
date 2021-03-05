@@ -20,7 +20,11 @@ _MSc program in Data Science and Scientific Computing. University of Trieste, It
 - 3CFU - 24h, 12 lecture, 2 hours each. 50% theoretical lecture, 50% practical session (40’ each).
 - GitHub: https://github.com/caravagn/GDA
 
-## Invited lecturers
+## Lecturers
+
+- Dr Giulio Caravagna, [Cancer Data Science Laboratory.](http://www.caravagnalab.org)
+
+**Invited guest lecturers**
 
 - Dr Alex Graudenzi, CNR.
 - Dr Daniele Ramazzotti, University of Milan-Bicocca.
