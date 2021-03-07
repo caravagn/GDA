@@ -26,10 +26,10 @@ _MSc program in Data Science and Scientific Computing. University of Trieste, It
 
 **Invited guest lecturers**
 
-- Dr Alex Graudenzi, CNR.
-- Dr Daniele Ramazzotti, University of Milan-Bicocca.
-- Dr Salvatore Milite, University of Trieste
 - Dr Riccardo Bergamin, University of Trieste
+- Dr Alex Graudenzi, CNR.
+- Dr Salvatore Milite, University of Trieste
+- Dr Daniele Ramazzotti, University of Milan-Bicocca.
 
 *** 
 
@@ -145,7 +145,7 @@ _MSc program in Data Science and Scientific Computing. University of Trieste, It
 
 *** 
 
-# Parte 2 - mathematical modelling e inference from bulk
+# Parte 2 -  modelling and inference from bulk
 
 *** 
 *** 

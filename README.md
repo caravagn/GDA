@@ -17,10 +17,10 @@ Trieste, Italy*
 
 **Invited guest lecturers**
 
--   Dr Alex Graudenzi, CNR.
--   Dr Daniele Ramazzotti, University of Milan-Bicocca.
--   Dr Salvatore Milite, University of Trieste
 -   Dr Riccardo Bergamin, University of Trieste
+-   Dr Alex Graudenzi, CNR.
+-   Dr Salvatore Milite, University of Trieste
+-   Dr Daniele Ramazzotti, University of Milan-Bicocca.
 
 ------------------------------------------------------------------------
 
