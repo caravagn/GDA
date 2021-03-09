@@ -26,12 +26,14 @@ Trieste, Italy*
 
 ## Lectures program
 
-Four main areas:
+Four main blocks of lectures:
 
 - Somatic calling from bulk sequencing
 - Mathematical modelling and inference from bulk
 - Single-cell transcriptomics
 - Population-level inference
+
+List of lectures
 
 | Lecturer         | Title                                         |
 |:-----------------|:----------------------------------------------|
