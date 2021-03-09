@@ -24,7 +24,14 @@ Trieste, Italy*
 
 ------------------------------------------------------------------------
 
-## Program
+## Lectures program
+
+Four main areas:
+
+- Somatic calling from bulk sequencing
+- Mathematical modelling and inference from bulk
+- Single-cell transcriptomics
+- Population-level inference
 
 | Lecturer         | Title                                         |
 |:-----------------|:----------------------------------------------|
@@ -165,7 +172,7 @@ Trieste, Italy*
 
 ------------------------------------------------------------------------
 
-# Parte 2 - mathematical modelling e inference from bulk
+# Parte 2 - mathematical modelling and inference from bulk
 
 ------------------------------------------------------------------------
 
@@ -255,7 +262,7 @@ Lecture
 
 ------------------------------------------------------------------------
 
-# Part 3 - Single-cell genomics transcriptomics
+# Part 3 - Single-cell transcriptomics
 
 ------------------------------------------------------------------------
 
@@ -290,25 +297,6 @@ Lecture
     -   …
 
 -   (Practice) Inference in practice
-
-    -   …
-    -   …
-
--   Readings
-
-    -   …
-    -   …
-
-------------------------------------------------------------------------
-
-**Lecture (D Ramazzotti):** *Somatic mutational signatures*
-
--   (Theory) Deconvolution of signatures from SNVs :
-
-    -   …
-    -   …
-
--   (Practice) Deconvolution in practice
 
     -   …
     -   …
