@@ -24,16 +24,7 @@ Trieste, Italy*
 
 ------------------------------------------------------------------------
 
-## Lectures program
-
-Four main blocks of lectures:
-
-- Somatic calling from bulk sequencing
-- Mathematical modelling and inference from bulk
-- Single-cell transcriptomics
-- Population-level inference
-
-List of lectures
+## Program
 
 | Lecturer         | Title                                         |
 |:-----------------|:----------------------------------------------|
@@ -174,7 +165,7 @@ List of lectures
 
 ------------------------------------------------------------------------
 
-# Parte 2 - mathematical modelling and inference from bulk
+# Parte 2 - modelling and inference from bulk
 
 ------------------------------------------------------------------------
 
@@ -264,7 +255,7 @@ Lecture
 
 ------------------------------------------------------------------------
 
-# Part 3 - Single-cell transcriptomics
+# Part 3 - Single-cell genomics transcriptomics
 
 ------------------------------------------------------------------------
 
@@ -299,6 +290,25 @@ Lecture
     -   …
 
 -   (Practice) Inference in practice
+
+    -   …
+    -   …
+
+-   Readings
+
+    -   …
+    -   …
+
+------------------------------------------------------------------------
+
+**Lecture (D Ramazzotti):** *Somatic mutational signatures*
+
+-   (Theory) Deconvolution of signatures from SNVs :
+
+    -   …
+    -   …
+
+-   (Practice) Deconvolution in practice
 
     -   …
     -   …
