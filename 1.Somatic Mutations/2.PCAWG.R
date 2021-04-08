@@ -7,6 +7,9 @@
 # -> https://dcc.icgc.org/api/v1/download?fn=/PCAWG/consensus_snv_indel/final_consensus_passonly.snv_mnv_indel.icgc.public.maf.gz
 #
 # ~2700 WGS pan-cancer, ~1GB of somatic mutations calls.
+# 
+# Write your own parsers for the data, load it and store it in some conventient way (eg, an rds per sample). To complete
+# this you will have to complete a few more lectures, but you can start pooling mutation data after this lecture
 
 # # Samples for which we will have CNA data (next lecture)
 # example_samples = readr::read_csv("2.Copy Number/PCAWG/CNA_pcawg.csv") %>%
