@@ -26,19 +26,19 @@ Trieste, Italy*
 
 ## Program
 
-| Lecturer         | Title                                         |
-|:-----------------|:----------------------------------------------|
-| Caravagna        | *Variant calling from bulk sequencing*        |
-| Caravagna        | *Measuring aneuploidy from bulk sequencing*   |
-| Caravagna        | *Integrated quality control of somatic calls* |
-| Bergamin         | *Population genetics for cancer*              |
-| Caravagna        | *Tumour subclonal deconvolution*              |
-| Ramazzotti       | *Somatic mutational signatures*               |
-| Bergamin, Milite | *Basics of Single-cell RNA analysis*          |
-| Graudenzi        | *Longitudinal evolution from single cell*     |
-| Milite           | *Count-based models for single-cell data*     |
-| Caravagna        | *Evolutionary based stratifications*          |
-| Caravagna        | *Population-level models*                     |
+| Lecturer         | Title                                         | When  |
+|:-----------------|:----------------------------------------------|-------|
+| Caravagna        | *Variant calling from bulk sequencing*        | 9/4   |
+| Caravagna        | *Measuring aneuploidy from bulk sequencing*   | 12/4  |
+| Caravagna        | *Integrated quality control of somatic calls* | 16/4  |
+| Bergamin         | *Population genetics for cancer*              | 19/4  |
+| Caravagna        | *Tumour subclonal deconvolution*              | 21/4  |
+| Ramazzotti       | *Somatic mutational signatures*               | 23/4  |
+| Bergamin, Milite | *Basics of Single-cell RNA analysis*          | 30/4 |
+| Graudenzi        | *Longitudinal evolution from single cell*     | 3/5 |
+| Milite           | *Count-based models for single-cell data*     | 5/5 |
+| Caravagna        | *Evolutionary based stratifications*          | 10/5|
+| Caravagna        | *Population-level models*                     | 12/5 |
 
 ------------------------------------------------------------------------
 
@@ -59,7 +59,7 @@ Trieste, Italy*
 
 ------------------------------------------------------------------------
 
-**Lecture:** *Variant calling from bulk sequencing*
+**Lecture:** *Variant calling from bulk sequencing* 
 
 -   (Theory) Mutation calling:
 
