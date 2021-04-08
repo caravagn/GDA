@@ -72,7 +72,7 @@ Trieste, Italy*
     -   VCF manipulation
     -   27 PCAWG cases (mutation types, burden, etc.)
 
--   Readings
+-   Readings (https://www.dropbox.com/s/bx2kam7tlf7tl5x/readings.zip?dl=0)
 
     -   (tool) Roth, Andrew, et al. “JointSNVMix: a probabilistic model
         for accurate detection of somatic mutations in normal/tumour
