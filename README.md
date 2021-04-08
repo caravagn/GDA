@@ -44,7 +44,7 @@ Trieste, Italy*
 
 ### Preamble
 
--   Course presentation:
+-   Course presentation (https://www.dropbox.com/s/m4qmh54gv2801xr/Primer.key?dl=0):
 
     -   Cancer Evolution,
     -   Modern Genomics,
@@ -88,8 +88,7 @@ Trieste, Italy*
         sequencing applications.” Nature genetics 46.8 (2014): 912-918.
     -   (tool) GATK (Broad Institute)
         -   Training: www.csc.fi/en/web/training/-/gatk2019
-        -   Lectures:
-            <https://www.youtube.com/watch?v=sM9cQPWwvn4&list=PLjiXAZO27elDHGlQwfd06r7coiFtpPkvI>
+        -   Lectures: https://www.youtube.com/watch?v=sM9cQPWwvn4&list=PLjiXAZO27elDHGlQwfd06r7coiFtpPkvI
 
 ------------------------------------------------------------------------
 
