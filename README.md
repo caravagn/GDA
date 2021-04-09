@@ -44,7 +44,7 @@ Trieste, Italy*
 
 ### Preamble
 
--   Course presentation:
+-   Course presentation (https://www.dropbox.com/s/9pw55fqe43do39d/Primer.pdf?dl=0):
 
     -   Cancer Evolution,
     -   Modern Genomics,
@@ -72,7 +72,7 @@ Trieste, Italy*
     -   VCF manipulation
     -   27 PCAWG cases (mutation types, burden, etc.)
 
--   Readings
+-   Readings (https://www.dropbox.com/s/bx2kam7tlf7tl5x/readings.zip?dl=0)
 
     -   (tool) Roth, Andrew, et al. “JointSNVMix: a probabilistic model
         for accurate detection of somatic mutations in normal/tumour
@@ -88,8 +88,7 @@ Trieste, Italy*
         sequencing applications.” Nature genetics 46.8 (2014): 912-918.
     -   (tool) GATK (Broad Institute)
         -   Training: www.csc.fi/en/web/training/-/gatk2019
-        -   Lectures:
-            <https://www.youtube.com/watch?v=sM9cQPWwvn4&list=PLjiXAZO27elDHGlQwfd06r7coiFtpPkvI>
+        -   Lectures: https://www.youtube.com/watch?v=sM9cQPWwvn4&list=PLjiXAZO27elDHGlQwfd06r7coiFtpPkvI
 
 ------------------------------------------------------------------------
 
