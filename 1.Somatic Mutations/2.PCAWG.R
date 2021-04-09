@@ -54,6 +54,8 @@
 #
 # ttype %>% readr::write_csv('1.Somatic Mutations/PCAWG/Types.csv')
 
+require(dplyr)
+
 ##########################################################################################
 # Lecture - Somatic Mutation Calling
 ##########################################################################################
@@ -84,7 +86,7 @@ all_mutations = lapply(all_mutations,
                          x
                        })
 
-all_mutations = Reduce(bind_rows, all_mutations)
+all_mutations = Reduce(rbind, all_mutations)
 
 ##########################################################################################
 # Visualise the distribution of SNVs/indels across tumour types, with a piechart/ barplot
