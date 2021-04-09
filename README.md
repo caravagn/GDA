@@ -227,30 +227,26 @@ Trieste, Italy*
 
 ------------------------------------------------------------------------
 
-Lecture
+**Lecture (D Ramazzotti):** *Mutational signatures in human cancers*
 
-    - (Theory) Phylogenetic inference {Neighbour joining, clones trees, mutation trees, SCITE}
-    - Sample trees for MSeq
-    - Full subclonal deconvolution with multi-region data
+- Theory: 
+	- Concepts behind mutational signatures 
+	- De novo inference of mutational signatures 
+	- Solving with non-negative matrix factorization (NMF) 
+	- Mutational signature extraction from pan-cancer data 
 
-------------------------------------------------------------------------
+- Practice: 
+	- Examples and best practice on real data 
+	- Analysis of breast cancer data 
 
-**Lecture (D Ramazzotti):** *Mutational signatures and processes*
+Readings: 
 
--   (Theory) Deconvolution of signatures from SNVs :
-
-    -   …
-    -   …
-
--   (Practice) Deconvolution in practice
-
-    -   …
-    -   …
-
--   Readings
-
-    -   …
-    -   …
+	- (Concepts on mutational signatures) Alexandrov, Ludmil B., et al. "Signatures of mutational processes in human cancer." Nature 500.7463 (2013): 415-421.
+	- (Concepts on mutational signatures) Alexandrov, Ludmil B., et al. "The repertoire of mutational signatures in human cancer." Nature 578.7793 (2020): 94-101.
+	(Tool - SigProfiler) Alexandrov, Ludmil B., et al. "Deciphering signatures of mutational processes operative in human cancer." Cell reports 3.1 (2013): 246-259.
+	- (Tool - SparseSignatures) Lal, A., et al. "De Novo Mutational Signature Discovery in Tumor Genomes using SparseSignatures." (2020).
+	- (Statistics - Non-negative matrix factorization) Brunet, Jean-Philippe, et al. "Metagenes and molecular pattern discovery using matrix factorization." Proceedings of the national academy of sciences 101.12 (2004): 4164-4169.
+	- (Statistics - Non-negative matrix factorization) Owen, Art B., and Patrick O. Perry. "Bi-cross-validation of the SVD and the nonnegative matrix factorization." The annals of applied statistics 3.2 (2009): 564-594.
 
 ------------------------------------------------------------------------
 
