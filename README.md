@@ -59,7 +59,7 @@ Trieste, Italy*
 
 ------------------------------------------------------------------------
 
-**Lecture:** *Variant calling from bulk sequencing* 
+**Lecture:** *Variant calling from bulk sequencing* (https://www.dropbox.com/s/2ngbbxiudux8h9v/Somatic_calling_annotated_lecture.pdf?dl=0)
 
 -   (Theory) Mutation calling:
 
