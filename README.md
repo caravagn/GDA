@@ -87,8 +87,8 @@ Trieste, Italy*
         haplotype-based approaches for calling variants in clinical
         sequencing applications.” Nature genetics 46.8 (2014): 912-918.
     -   (tool) GATK (Broad Institute)
-        -   Training: www.csc.fi/en/web/training/-/gatk2019
-        -   Lectures: https://www.youtube.com/watch?v=sM9cQPWwvn4&list=PLjiXAZO27elDHGlQwfd06r7coiFtpPkvI
+       - Training: www.csc.fi/en/web/training/-/gatk2019
+       -   Lectures: https://www.youtube.com/watch?v=sM9cQPWwvn4&list=PLjiXAZO27elDHGlQwfd06r7coiFtpPkvI
 
 ------------------------------------------------------------------------
 
@@ -230,23 +230,23 @@ Trieste, Italy*
 **Lecture (D Ramazzotti):** *Mutational signatures in human cancers*
 
 - Theory: 
-	- Concepts behind mutational signatures 
-	- De novo inference of mutational signatures 
-	- Solving with non-negative matrix factorization (NMF) 
-	- Mutational signature extraction from pan-cancer data 
+   - Concepts behind mutational signatures 
+   - De novo inference of mutational signatures 
+   - Solving with non-negative matrix factorization (NMF) 
+   - Mutational signature extraction from pan-cancer data 
 
 - Practice: 
-	- Examples and best practice on real data 
-	- Analysis of breast cancer data 
+   - Examples and best practice on real data 
+   - Analysis of breast cancer data 
 
 Readings: 
 
-	- (Concepts on mutational signatures) Alexandrov, Ludmil B., et al. "Signatures of mutational processes in human cancer." Nature 500.7463 (2013): 415-421.
-	- (Concepts on mutational signatures) Alexandrov, Ludmil B., et al. "The repertoire of mutational signatures in human cancer." Nature 578.7793 (2020): 94-101.
-	(Tool - SigProfiler) Alexandrov, Ludmil B., et al. "Deciphering signatures of mutational processes operative in human cancer." Cell reports 3.1 (2013): 246-259.
-	- (Tool - SparseSignatures) Lal, A., et al. "De Novo Mutational Signature Discovery in Tumor Genomes using SparseSignatures." (2020).
-	- (Statistics - Non-negative matrix factorization) Brunet, Jean-Philippe, et al. "Metagenes and molecular pattern discovery using matrix factorization." Proceedings of the national academy of sciences 101.12 (2004): 4164-4169.
-	- (Statistics - Non-negative matrix factorization) Owen, Art B., and Patrick O. Perry. "Bi-cross-validation of the SVD and the nonnegative matrix factorization." The annals of applied statistics 3.2 (2009): 564-594.
+   - (Concepts on mutational signatures) Alexandrov, Ludmil B., et al. "Signatures of mutational processes in human cancer." Nature 500.7463 (2013): 415-421.
+   - (Concepts on mutational signatures) Alexandrov, Ludmil B., et al. "The repertoire of mutational signatures in human cancer." Nature 578.7793 (2020): 94-101.
+   - (Tool - SigProfiler) Alexandrov, Ludmil B., et al. "Deciphering signatures of mutational processes operative in human cancer." Cell reports 3.1 (2013): 246-259.
+   - (Tool - SparseSignatures) Lal, A., et al. "De Novo Mutational Signature Discovery in Tumor Genomes using SparseSignatures." (2020).
+   - (Statistics - Non-negative matrix factorization) Brunet, Jean-Philippe, et al. "Metagenes and molecular pattern discovery using matrix factorization." Proceedings of the national academy of sciences 101.12 (2004): 4164-4169.
+   - (Statistics - Non-negative matrix factorization) Owen, Art B., and Patrick O. Perry. "Bi-cross-validation of the SVD and the nonnegative matrix factorization." The annals of applied statistics 3.2 (2009): 564-594.
 
 ------------------------------------------------------------------------
 
@@ -294,54 +294,34 @@ Lecture
     -   …
     -   …
 
-------------------------------------------------------------------------
-
-**Lecture (D Ramazzotti):** *Somatic mutational signatures*
-
--   (Theory) Deconvolution of signatures from SNVs :
-
-    -   …
-    -   …
-
--   (Practice) Deconvolution in practice
-
-    -   …
-    -   …
-
--   Readings
-
-    -   …
-    -   …
 
 ------------------------------------------------------------------------
 
 **Lecture (S Milite):** *Count-based models for single-cell data*
 
--   (Theory) Copy Number genotyping from single-cell RNA sequencing
+- Theory (approx 75/80 min):
+   - Generative modelling as an alternative to pipelines
+   - Poisson and Negative binomial distributions
+   - Count based modelling, RNA-seq vs scRNA-seq
+   - Count models for normalisation (scTransform)
+   - Scaling NB models with variational autoencoders (scVI)
+   - CONGAS (genotype CNV from scRNA-seq)
+   - Elements of Gradient based variational inference
+   - Discrete Latent Variable modelling
 
-    -   …
-    -   …
+- Practice (approx 20-30 min):
+   - Example run of CONGAS on breast cancer 10x dataset
 
--   (Practice) Deconvolution in practice
-
-    -   …
-    -   …
-
--   Readings
-
-    -   Milite, Salvatore, Riccardo Bergamin, and Giulio Caravagna.
-        “Genotyping Copy Number Alterations from single-cell RNA
-        sequencing.” bioRxiv (2021).
-    -   Fan, Jean, et al. “Linking transcriptional and genetic tumor
-        heterogeneity through allele analysis of single-cell RNA-seq
-        data.” Genome research 28.8 (2018): 1217-1227.
-    -   Harmanci, Akdes Serin, Arif O. Harmanci, and Xiaobo Zhou.
-        “CaSpER identifies and visualizes CNV events by integrative
-        analysis of single-cell or bulk RNA-sequencing data.” Nature
-        communications 11.1 (2020): 1-16.
-    -   Navin, Nicholas, et al. “Tumour evolution inferred by
-        single-cell sequencing.” Nature 472.7341 (2011): 90-94.
-
+- Readings:
+   - Hafemeister, Christoph, and Rahul Satija. ‘Normalization and Variance Stabilization of Single-Cell RNA-Seq Data Using Regularized Negative Binomial Regression’. Genome Biology 20, no. 1 (23 December 2019): 296. https://doi.org/10.1186/s13059-019-1874-1.
+   - Jang, Eric, Shixiang Gu, and Ben Poole. ‘Categorical Reparameterization with Gumbel-Softmax’. ArXiv:1611.01144 [Cs, Stat], 5 August 2017. http://arxiv.org/abs/1611.01144.
+   - Kingma, Diederik P., and Max Welling. ‘Auto-Encoding Variational Bayes’. ArXiv:1312.6114 [Cs, Stat], 1 May 2014. http://arxiv.org/abs/1312.6114.
+   - Lopez, Romain, Jeffrey Regier, Michael B. Cole, Michael I. Jordan, and Nir Yosef. ‘Deep Generative Modeling for Single-Cell Transcriptomics’. Nature Methods 15, no. 12 (December 2018): 1053–58. https://doi.org/10.1038/s41592-018-0229-2.
+   - Milite, Salvatore, Riccardo Bergamin, and Giulio Caravagna. ‘Genotyping Copy Number Alterations from Single-Cell RNA Sequencing’. BioRxiv, 1 January 2021, 2021.02.02.429335. https://doi.org/10.1101/2021.02.02.429335.
+   - Sarkar, Abhishek, and Matthew Stephens. ‘Separating Measurement and Expression Models Clarifies Confusion in Single Cell RNA-Seq Analysis’. BioRxiv, 1 January 2020, 2020.04.07.030007. https://doi.org/10.1101/2020.04.07.030007.
+   - Schulman, John, Nicolas Heess, Theophane Weber, and Pieter Abbeel. ‘Gradient Estimation Using Stochastic Computation Graphs’. ArXiv:1506.05254 [Cs], 5 January 2016. http://arxiv.org/abs/1506.05254.
+   - Svensson, Valentine. ‘Droplet ScRNA-Seq Is Not Zero-Inflated’. Nature Biotechnology 38, no. 2  (February 2020): 147–50. https://doi.org/10.1038/s41587-019-0379-5.
+   - 
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
