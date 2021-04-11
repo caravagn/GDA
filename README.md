@@ -174,10 +174,14 @@ Trieste, Italy*
 
 -   (Theory) Branching processes and other models
 
-    -   ….
-    -   ….
-    -   ….
-
+    - Why Branching Process?
+    - Branching vs Linear
+    - Stochastic Processes
+    - Moran Model, Wright-Fisher, Coalescence and Birth-Death 
+    - Luria Delbruck Distribution
+    - Quantify evolution and selection from VAF spectrum
+    - Spatial evolution
+    
 -   (Practice) Tumour growth simulation:
 
     -   Synthetic tumour generation with TEMULATOR
@@ -189,8 +193,7 @@ Trieste, Italy*
 
 -   Readings
 
-    -   …
-    -   …
+    -  TBD
 
 ------------------------------------------------------------------------
 
