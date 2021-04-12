@@ -108,7 +108,7 @@ Trieste, Italy*
     -   Cohort-level distribution of CNAs per chromosome (length,
         percentage, copy state).
 
--   Readings
+-   Readings (https://www.dropbox.com/s/ohz5f7e51dwpg71/readings.zip?dl=0)
 
     -   (tool) Favero, Francesco, et al. “Sequenza: allele-specific copy
         number and mutation profiles from tumor sequencing data.” Annals
