@@ -1,3 +1,6 @@
+require(dplyr)
+require(ggplot2)
+
 # 2 Poissons, mean 4 and 1
 s1 = rpois(n = 100, lambda = 4) %>%
   as_tibble() %>%

@@ -58,36 +58,37 @@ ggplot(mutations,
        aes(`F`, fill = CNt %>% paste)) +
   geom_histogram(binwidth = 0.01)
 
-# More details on what happens inside Sequenza
-
-# GC content
-gc.stats <- gc.sample.stats(file = data.file, verbose = TRUE, parallel = 1)
-
-gc_normal = gc.stats$normal
-gc_tumour = gc.stats$tumor
-
-# Normalisation of the observed values by GC content
-normal = apply(
-  gc_normal$n,
-  1,
-  FUN = function(x, w) {
-    weighted.mean(x = w, w = x, na.rm = TRUE)
-  },
-  w = gc_normal$depth
-)
-
-tumour = apply(
-  gc_tumour$n,
-  1,
-  FUN = function(x, w) {
-    weighted.mean(x = w, w = x, na.rm = TRUE)
-  },
-  w = gc_tumour$depth
-)
-
-# Average tumour and normal depths
-avg_tum_depth <- weighted.mean(x = gc_tumour$depth, 
-                               w = colSums(gc_tumour$n))
-
-avg_nor_depth <- weighted.mean(x = gc_normal$depth, 
-                               w = colSums(gc_normal$n))
+# # More details on what happens inside Sequenza - GC normalisation (not shown in lecture
+# which means you can skip this)
+# 
+# # GC content
+# gc.stats <- gc.sample.stats(file = data.file, verbose = TRUE, parallel = 1)
+# 
+# gc_normal = gc.stats$normal
+# gc_tumour = gc.stats$tumor
+# 
+# # Normalisation of the observed values by GC content
+# normal = apply(
+#   gc_normal$n,
+#   1,
+#   FUN = function(x, w) {
+#     weighted.mean(x = w, w = x, na.rm = TRUE)
+#   },
+#   w = gc_normal$depth
+# )
+# 
+# tumour = apply(
+#   gc_tumour$n,
+#   1,
+#   FUN = function(x, w) {
+#     weighted.mean(x = w, w = x, na.rm = TRUE)
+#   },
+#   w = gc_tumour$depth
+# )
+# 
+# # Average tumour and normal depths
+# avg_tum_depth <- weighted.mean(x = gc_tumour$depth, 
+#                                w = colSums(gc_tumour$n))
+# 
+# avg_nor_depth <- weighted.mean(x = gc_normal$depth, 
+#                                w = colSums(gc_normal$n))
