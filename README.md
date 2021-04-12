@@ -174,20 +174,19 @@ Trieste, Italy*
 
 -   (Theory) Branching processes and other models
 
-    - Why Branching Process?
-    - Branching vs Linear
-    - Stochastic Processes
-    - Moran Model, Wright-Fisher, Coalescence and Birth-Death 
-    - Luria Delbruck Distribution
-    - Quantify evolution and selection from VAF spectrum
-    - Spatial evolution
+    - Cancer Evolution as Stochastic Branching Process
+    - Markov System and Master equation
+    - Some Examples: Moran Model, Wright-Fisher Model, Coalescence
+    - Birth-Death Process
+    - Luria-Delbruck Model
+    - Theory of 1/f tail
+    - Quantify Cancer Evolution from VAF Spectrum
+    -   Spatial Tumor Growth
     
 -   (Practice) Tumour growth simulation:
 
-    -   Synthetic tumour generation with TEMULATOR
+    -   Simulations of a Branching process and VAF spectrum
         (<https://t-heide.github.io/TEMULATOR/>),
-    -   Inspecting VAF distributions for subclones that are about to
-        sweep, or too small to detect
     -   Example tumours from CHESS
         (<https://github.com/sottorivalab/CHESS.cpp>)
 
