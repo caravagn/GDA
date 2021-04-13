@@ -190,9 +190,16 @@ Trieste, Italy*
     -   Example tumours from CHESS
         (<https://github.com/sottorivalab/CHESS.cpp>)
 
--   Readings
+-   Readings (https://www.dropbox.com/s/ydl8zl0rhd46lx3/references_branching_process.zip?dl=0)
 
-    -  TBD
+    -  Turajlic, et al., "Resolving genetic heterogeneity in cancer", Nature Reviews Genetic Volume Issue 2019
+    -  Beerenwinkel, et al., “Cancer Evolution: Mathematical Models and Computational Inference”, DOI:10.1093/sysbio/syu081, 
+    -  Kessler and Levine, “Large Population solution of the stochastic Luria-Delbruck evolution model ”, PNAS Volume 110 issue 29 2013
+    -  Weber and Frey, “Master equations and the theory of stochastic path integrals”, arXiv:1609.02849v2, 2 April 2017
+    -  Durret, “Branching Process Models of Cancer”, Mathematical Biosciences Institute Lecture Series 1.1 Stochastics in Biological Systems
+    -  Willimas, et al., “Identification of neutral evolution accross cancer type”, Nature Genetics, 2016.
+    -  Williams, et al., “Quantification of subclonal selection in cancer from bulk sequencing data ”, Nature Genetics, 2019.
+    -  Caravagna, et al., "Subclonal reconstruction of tumors by using machine learning and population genetics", Nature Genetics 52, 2020.
 
 ------------------------------------------------------------------------
 
@@ -209,7 +216,7 @@ Trieste, Italy*
     -   MOBSTER and BMix with single-sample data
     -   MOBSTER and VIBER with multi-region data.
 
--   Readings
+-   Readings (same as previous lecture plus)
 
     -   Roth, Andrew, et al. “PyClone: statistical inference of clonal
         population structure in cancer.” Nature methods 11.4 (2014):
@@ -220,9 +227,6 @@ Trieste, Italy*
     -   Miller, Christopher A., et al. “SciClone: inferring clonal
         architecture and tracking the spatial and temporal patterns of
         tumor evolution.” PLoS Comput Biol 10.8 (2014): e1003665.
-    -   Caravagna, Giulio, et al. “Subclonal reconstruction of tumors by
-        using machine learning and population genetics.” Nature Genetics
-        52.9 (2020): 898-907.
     -   Caravagna, Giulio, et al. “The MOBSTER R package for tumour
         subclonal deconvolution from bulk DNA whole-genome sequencing
         data.” BMC bioinformatics 21.1 (2020): 1-11.
