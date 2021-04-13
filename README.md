@@ -92,7 +92,7 @@ Trieste, Italy*
 
 ------------------------------------------------------------------------
 
-**Lecture:** *Measuring aneuploidy from bulk sequencing*
+**Lecture:** *Measuring aneuploidy from bulk sequencing* (https://www.dropbox.com/s/nberoeiisgmwknl/2.CNA_lecture.pdf?dl=0)
 
 -   (Theory) Aneuploidy and Copy Number calling:
 
