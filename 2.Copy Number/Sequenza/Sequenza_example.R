@@ -45,6 +45,8 @@ pheatmap(
   color = RColorBrewer::brewer.pal(n = 8, "Reds")
 )
 
+# install.packages('CopyNumber')
+
 # Write results
 sequenza.results(sequenza.extract = test,
                  cp.table = CP, 
