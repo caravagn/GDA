@@ -147,9 +147,10 @@ Trieste, Italy*
 
 -   (Practice) Quality-control of Whole Genome Sequencing data:
 
-    -   Implement mapping of SNVs to CNA segments
-    -   Validate MSeq calls with CNAqc
-    -   Identify good and bad samples from PCAWG
+    -   Skim through PCAWG data (https://www.dropbox.com/s/ismxl53tk4amov6/PCAWG.zip?dl=0)
+    -   Metadata (https://www.dropbox.com/s/8v4gvb46k2xokzw/PCWAG_Summary_table.csv?dl=0)
+    -   Project codes: https://docs.icgc.org/submission/projects/
+    -   Pocessing samples with CNAqc
 
 -   Readings
 
@@ -158,7 +159,7 @@ Trieste, Italy*
         in the era of high-resolution whole genome sequencing.” bioRxiv
         (2021).
     -   Cmero, Marek, et al. “Inferring structural variant cancer cell
-        fraction.” Nature communications 11.1 (2020): 1-15.
+        fraction.” Nature Communications 11.1 (2020): 1-15.
     -   Yuan, Ke, et al. “Ccube: a fast and robust method for estimating
         cancer cell fractions.” bioRxiv (2018): 484402.
 
