@@ -139,7 +139,7 @@ Trieste, Italy*
 
 **Lecture:** *Integrated quality control of somatic calls*
 
--   (Theory) Validating mutations, copy number and tumour purity:
+-   (Theory) Validating mutations, copy number and tumour purity (https://www.dropbox.com/s/6gnwvzs8vpjkg77/3.CNAqc_lecture.pdf?dl=0):
 
     -   Cancer Cell Fractions
     -   CNAqc
