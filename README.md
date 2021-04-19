@@ -37,8 +37,8 @@ Trieste, Italy*
 | Bergamin, Milite | *Basics of Single-cell RNA analysis*          | 30/4 |
 | Graudenzi        | *Longitudinal evolution from single cell*     | 3/5 |
 | Milite           | *Count-based models for single-cell data*     | 5/5 |
-| Caravagna        | *Evolutionary based stratifications*          | 10/5|
-| Caravagna        | *Population-level models*                     | 12/5 |
+| Caravagna        | *Evolutionary based stratifications*          | 12/5| 
+| Caravagna        | *Population-level models*                     | 14/5 |
 
 ------------------------------------------------------------------------
 
