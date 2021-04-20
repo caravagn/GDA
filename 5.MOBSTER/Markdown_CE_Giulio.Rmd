@@ -1,0 +1,442 @@
+---
+title: "Cancer Evolution analysis of a glioblastoma <br> Genome Data Analytics 2021"
+author: "Giulio Caravagna (gcaravagna@units.it)<br> Cancer Data Science Laboratory, University of Trieste."
+date: "20/4/2021"
+output: 
+  rmarkdown::html_document:
+    theme: cosmo
+---
+
+# Table of Contents
+1. [Requirements](#req)
+2. [Input data](#input)
+3. [Assessing the quality of these calls](#quality)
+4. [Subclonal deconvolution of diploid SNVs](#diploid)
+4. [Subclonal deconvolution with CCF](#ccf)
+
+
+<br><br>
+
+We first begin with a few slides: <a href="./SEMM_slides.pdf">download PDF</a>
+
+<br><br>
+
+Our analyses mainly leverage on a set packages that I have developed. Follow the links to see the package websites, function manuals and reference vignettes (these analyses are largely based on the vignettes).
+
+<br>
+
+<div id="bg">
+<a href="https://caravagn.github.io/CNAqc" width="8%"><img src="https://caravagn.github.io/CNAqc/reference/figures/logo.png" width="8%"></a>
+<a href="https://caravagn.github.io/mobster" width="8%"><img src="https://caravagn.github.io/mobster/reference/figures/logo.png" width="8%"></a>
+<a href="https://caravagn.github.io/ctree" width="8%"><img src="https://caravagn.github.io/ctree/reference/figures/logo.png" width="8%"></a>
+</div>  
+<div id="bg">
+
+<br><br>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Requirements <a name="req"></a> 
+
+We assume that you have run the setup script that we circulated, which we replicate here below. Notice that we have tested this with the new R version 3.4 (released this summer).
+
+```{r, eval=FALSE}
+# These commands have been successfully tested on this system
+# 
+# >  sessionInfo()
+# R version 4.0.2 (2020-06-22)
+# Platform: x86_64-apple-darwin17.0 (64-bit)
+# Running under: macOS Catalina 10.15.7
+# 
+# Run on 20/4/2021.
+
+# Devtools is required to install packages from Github directly, you should
+# already have it (unless you've downloaded a brand new R version)
+install.packages('devtools')
+
+# We use these two packages in this tutorial. They will download automatically
+# all the required dependencies, some of them are also my packages, but many
+# of them are pretty standard CRAN packages. Reply Yes to any question regarding
+# the installation of extra packages, and installation by binary (rather than 
+# sources) works as well.
+
+# Get the MOBSTER tool for subclonal deconvolution, and CNAqc for data QC
+devtools::install_github("caravagn/mobster", ref = 'development')
+devtools::install_github("caravagn/CNAqc")
+devtools::install_github("caravagn/ctree")
+
+# Extra package(s) that we need to include in the packages as dependencies
+install.packages('wesanderson')
+install.packages('reshape2')
+install.packages('ggpubr')
+```
+
+```{r}
+# This should now work
+library(mobster)
+library(CNAqc)
+library(tidyverse)
+```
+So you can load the libraries that are required for this analysis, and everything should go just fine.
+
+```{r, eval=TRUE}
+library(mobster)
+library(CNAqc)
+library(dplyr)
+library(readr)
+```
+
+## Input data <a name="input"></a>
+
+We use some data that [we have recently analysed](https://www.nature.com/articles/s41588-020-0675-5); there are more data
+release with our paper, you could play around with those once you have understood this analysis. 
+
+> Subclonal reconstruction of tumors by using machine learning and population genetics
+Caravagna et al. Nature Genetics volume 52, pages 898–907 (2020).
+
+For these data we have selected the following:
+
+* single-nucleotide somatic mutations;
+* absolute clonal CNA segments;
+* tumour purity. 
+
+The data have been cleaned by me for this presentation (similarly to how I did that for the actual paper). Originally, this sample and its associated relapse have been released with a [Cancer Cell paper](https://pubmed.ncbi.nlm.nih.gov/30905762/)
+
+> Evolutionary Trajectories of IDH WT Glioblastomas Reveal a Common Path of Early Tumorigenesis Instigated Years ahead of Initial Diagnosis. Koerber et al. Cancer Cell. 2019 Apr 15;35(4):692-704.e12. 
+
+Inputs are provided in CSV format, we load them using the `readr` package.
+
+```{r, eval=TRUE}
+# -> somatic mutations
+snvs = readr::read_csv('data/mutations.csv', col_types = readr::cols())
+
+# -> copy number segment (CNA), precisely absolute calls for clonal segments
+cna = readr::read_csv('data/cna.csv', col_types = readr::cols())
+
+# Sample information
+sample_info = readr::read_csv('data/sample.csv', col_types = readr::cols())
+
+# -> sample id
+sample_id = sample_info$sample
+
+# -> a scalar reporting sample purity (0 <= x <= 1)
+sample_purity = sample_info$purity
+
+# -> reference genome used
+reference = "hg19"
+```
+
+`readr` returns all tibble-compliant data, using the `tidyverse` approach. Let's have a look at what we have in the data. To map mutations on top of CNA we need to have genome locations, and to run a deconvolution with MOBSTER we need the VAF of the somatic mutation. Note that these calls are obtained by subtracting the somatic mutations detected in the tumour sample from a putative normal sample.
+
+```{r}
+print(snvs)
+```
+
+For instance we see:
+
+* `chr` - chromosome name (format `chrXX`)
+* `from`/ `to` - nucleotide position (relative to the chromosome beginning)
+* `ref`/ `alt` - reference and alternative allele
+
+These mutations span all the genome and are just SNVs (it is good to use these instead of indels). 
+```{r}
+ # Mapping of the mutations per chromosome
+snvs %>% 
+  dplyr::group_by(chr) %>% 
+  dplyr::summarise(n = dplyr::n()) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::arrange(dplyr::desc(n))
+
+# Type of mutations
+snvs %>% 
+  dplyr::group_by(ref, alt) %>% 
+  dplyr::summarise(n = dplyr::n()) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::arrange(dplyr::desc(n)) 
+```
+
+We also have read counts data obtained from the caller that was used to generate. You can verify that 
+`VAF` = `NV`/`DP`. Eg, 6/60 = 0.1
+
+```{r}
+snvs %>% 
+  dplyr::select(DP, NV, VAF) %>% 
+  print
+```
+
+Before moving on, notice that there are driver mutations annotated in these calls; one for instance is
+an exonic `TP53` mutation - identified after Annovar annotations by looking at [COSMIC](https://cancer.sanger.ac.uk/cosmic).
+This driver has been discovered by the authors in the original paper. Another driver event has been retrieved from the original paper, it is a `TERT` promoter mutation (other potential drivers are annotated in the original paper but the fall off CNA regions, and so are not discussed here).
+
+The input format to include drivers is the one required by `CNAqc`.
+
+```{r}
+snvs %>% 
+  dplyr::filter(is_driver) %>% 
+  print
+```
+
+
+# Assessing the quality of these calls <a name="quality"></a>
+
+We use the package [CNAqc](https://caravagn.github.io/CNAqc/). 
+
+The package takes as input all the data we have just loaded, and maps the mutations on top of the
+segments. it implements also a number of other analyses which we will see right now.
+
+The idea of `CNAqc` is this. If we have a godd normal/ tumour set of samples, mutations are 
+somewhat easier to call compared to CNAs. This is because mutations are associated to read counts,
+which come out of a BAM file, while CNAs are from BAF and log-ratio data. The same holds
+for sample purity estimate, which is usually obtained together with CNAs.
+
+Thus, in general  _if mutations calls are "good" quality,_ then we can assess the quality of CNAs 
+and tumour purity estimates as well. Basically the two types of data - mutations on one side,
+and CNAs/prity on the other - cannot tell two different stories.
+
+We begin by creating a `CNAqc` S3 object (read out the outputs of the tool to understand
+what is happening).
+```{r}
+# CNAqc data object
+x = CNAqc::init(snvs,
+                cna,
+                sample_purity,
+                reference)
+
+# S3 print
+print(x)
+```
+
+There are some basic plotting functions in the package, you shoud use those to
+inspect the included mutations.
+
+In general we are interested in the `VAF` and `DP` profiles - recall that `DP` is the
+coverage per locus. We assemble a nice 2-panels figure by using `ggpubr`; note that
+the package also annotates the driver data in the plot, so you can immediately see
+that this `TP53` driver SNVs maps to an LOH region (kind of expected for a suppressor gene).
+
+```{r, fig.width=8, fig.height=4}
+ggpubr::ggarrange(
+  CNAqc::plot_data_histogram(x),
+  CNAqc::plot_data_histogram(x, which = 'DP'),
+  ncol = 2
+  ) %>% 
+  print()
+```
+
+
+We can do more complex plots. For instace we can layout a panel with segments in bottom, 
+and all other genome-wide plots on top. Via `cowplot` we can align plots on the vertical axis, 
+and stretch their relative height to obtain a nice layout.
+
+```{r, fig.width=9.5, fig.height=6, message=FALSE, warning=F}
+cowplot::plot_grid(
+  CNAqc::plot_gw_counts(x),
+  CNAqc::plot_gw_vaf(x, N = 10000),
+  CNAqc::plot_gw_depth(x, N = 10000),
+  CNAqc::plot_segments(x),
+  align = 'v', 
+  nrow = 4, 
+  rel_heights = c(.15, .15, .15, .8)
+  )
+```
+
+So it is easy to see that this tumour is largely diploid
+```{r, fig.width=3, fig.height=4}
+CNAqc::plot_karyotypes(x)
+```
+
+You can play around with the `CNAqc` functions following examples available at the tool website.
+
+Here we just check that the quality of the calls is good to study this tumour. We use a method based on a peak
+detection algorithm that is derived from a combinatorial arguments that links tumour ploidy, mutation multiplicity,
+sample purity, and VAF.
+
+We do not dig into the details of this, you can fin a lot of explanations on the manual and tool website. 
+
+```{r, fig.width=10, fig.height=4}
+x = CNAqc::analyze_peaks(x, matching_strategy = 'closest')
+
+print(x)
+```
+
+
+We can visualise the result of this analysis.
+```{r, fig.width=12, fig.height=4}
+CNAqc::plot_peaks_analysis(x)
+```
+
+# Subclonal deconvolution of diploid SNVs <a name="diploid"></a>
+
+We use the package [mobster](https://caravagn.github.io/mobster/). 
+
+Now we know we can trust those diploid SNVs, let's use them.
+
+```{r, fig.width=4, fig.height=4}
+# Subset the data
+diploid_mutations = x %>%
+  CNAqc::subset_by_segment_karyotype(karyotypes = '1:1')
+
+# We can visualise the data using ggplot
+diploid_mutations$snvs %>%
+  ggplot(aes(VAF)) +
+  geom_histogram(binwidth = 0.01) +
+  theme_light()
+```
+
+We use SNVs with `VAF` above $5\%$, and below $65\%$; SNVs above that cut 
+are clearly given by miscalled CNA segments.
+
+We use one possible parametrisation of `mobster`, which is identified by
+a `"FAST"`. This tests a few model parameters, and is usually fast to run; It is not necessarily the best 
+analysis but in general is good enough to get a quick grasp of what is in the data. In this case it works
+well.
+
+```{r}
+mobster_analysis = mobster_fit(
+  diploid_mutations$snvs %>%
+    dplyr::filter(VAF > 0.05, VAF < 0.65),  # Remove minimum VAF and obviously wrong mappings
+  seed = 1234,
+  auto_setup = "FAST",
+  description = sample_id
+  )
+
+```
+
+Function `mobster_fit` returns a composite object (which we will soon wrap up in a new S3 object). So far you
+can see the fields returned by the tool in a named list.
+
+The list contains:
+
+* the best model fits;
+* a set of alternative model fits;
+* a table with all the scored models.
+
+```{r}
+# Named list
+names(mobster_analysis)
+
+# A table reporting the score for each possible model returned by the tool
+print(mobster_analysis$fits.table)
+
+# The scoring used (defined in the paper): default reICL (~BIC + entropy of the latent variables)
+print(mobster_analysis$model.selection)
+
+# The best model fit -- what you will consider most of the times for downstream analysis
+print(mobster_analysis$best)
+```
+
+The first thing to do now, is to plot the best model fit, and inspect it.
+```{r, fig.width=5, fig.height=4, warning = FALSE}
+plot(mobster_analysis$best)
+```
+
+Then, we can inspect a number of other features for the model, using other
+plotting functions of `mobster`. You should read the model definition to understand
+exactly what these plot means.
+
+We can see the probability of assignment of a mutation to a cluster, and use it to
+check if some clusters are more difficult to define than others.
+
+```{r, fig.width=5, fig.height=5}
+plot_latent_variables(mobster_analysis$best)
+```
+
+Then we can see how big is each cluster (normalised for total mutational burden).
+In clustering these are called mixing proportions.
+
+```{r, fig.width=5, fig.height=4, warning = FALSE}
+plot_mixing_proportions(mobster_analysis$best)
+```
+
+The model minimises a negative log-likelihood function, which we can
+visualise (as a function of the optimisation step).
+
+```{r, fig.width=6, fig.height=5}
+plot_NLL(mobster_analysis$best)
+```
+
+In general it is also good to inspect the other models that we have selected
+as alternative to the best fit. 
+
+In this case we see that the only model that makes sense is the best one.
+
+```{r, fig.width=9, fig.height=9, message=FALSE, warning=FALSE}
+plot_model_selection(mobster_analysis)
+```
+
+The theory underlying `mobster` allows to retrieve the evolutionary parameters of this tumour, such as:
+
+* the tumour mutation rate $\mu$ (in units of cell doublings);
+* the time the subclone originated (same unit as above);
+* the subclone selection coefficient $s$.
+
+```{r}
+evolutionary_parameters(mobster_analysis)
+```
+
+# Subclonal deconvolution with CCF <a name="ccf"></a>
+
+We can also compute CCFs from these calls, because they are good quality. If everything
+makes sense, we should obtain the same result we have with diploid mutations.
+
+We go back to using `CNAqc` to compute CCFs values, and plot their analysis. Details
+on how the computation is carried out are available at the package website. Shortly,
+it uses an entropy measure based on a mixture model for the expected peaks of 
+mutations multiplicities.
+
+```{r,fig.width=11, fig.height=10,warning=F}
+x = CNAqc::compute_CCF(x, method = "ENTROPY")
+
+# We can visualise the CCF computation report
+plot_CCF(x)
+```
+
+So we have the overall CCF distribution now.
+
+```{r, fig.width=4, fig.height=4}
+# CCF across all karyotypes
+plot_data_histogram(x, which = 'CCF')
+```
+
+The CCFs are used to create a valid input for `mobster`. We rescale the CCF
+value to match a VAF for a putative heterozygous clonal diploid mutation.
+
+We go faster: we impose filters as above (adjusted for purity), fit the model
+and 
+
+```{r, fig.width=5, fig.height=4, warning = FALSE}
+# Getter and filter
+ccf_input = CCF(x) %>%
+  mutate(VAF = CCF/2) %>%
+  filter(VAF > 0.05/0.95, VAF < 1)
+
+# Actual run, as above
+mobster_analysis_CCF = mobster_fit(
+  ccf_input, 
+  auto_setup = 'FAST', 
+  description = sample_id
+  )
+
+# We just go faster than before
+plot(mobster_analysis_CCF$best)
+```
+
+We use the package [ctree](https://caravagn.github.io/ctree/) to cpmpute clone trees from these CCF clusters.
+
+This package is accessed directly from `mobster`. With 1 sunclone, there is one possible tree (obviously).
+
+
+```{r, fig.width=5, fig.height=5, warning = FALSE}
+trees = mobster::get_clone_trees(mobster_analysis_CCF$best)
+
+# Textual print
+print(trees)
+
+# Plot the unique tree
+plot(trees[[1]])
+```
