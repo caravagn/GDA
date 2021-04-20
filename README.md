@@ -236,13 +236,13 @@ Trieste, Italy*
 
 **Lecture (D Ramazzotti):** *Mutational signatures in human cancers*
 
-- Theory: 
+- Theory: (https://www.dropbox.com/s/t60cjdipp93cueq/6.%20Signatures.pdf?dl=0) 
    - Concepts behind mutational signatures 
    - De novo inference of mutational signatures 
    - Solving with non-negative matrix factorization (NMF) 
    - Mutational signature extraction from pan-cancer data 
 
-- Practice: 
+- Practice (install required packages before the lecture): 
    - Examples and best practice on real data 
    - Analysis of breast cancer data 
 
