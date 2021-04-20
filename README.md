@@ -200,13 +200,12 @@ Trieste, Italy*
     -  Durret, “Branching Process Models of Cancer”, Mathematical Biosciences Institute Lecture Series 1.1 Stochastics in Biological Systems
     -  Willimas, et al., “Identification of neutral evolution accross cancer type”, Nature Genetics, 2016.
     -  Williams, et al., “Quantification of subclonal selection in cancer from bulk sequencing data ”, Nature Genetics, 2019.
-    -  Caravagna, et al., "Subclonal reconstruction of tumors by using machine learning and population genetics", Nature Genetics 52, 2020.
 
 ------------------------------------------------------------------------
 
 **Lecture:** *Tumour subclonal deconvolution*
 
--   (Theory) Subclonal deconvolution:
+-   (Theory) Subclonal deconvolution (https://www.dropbox.com/s/l7efzgiv6o8jy3p/5.MOBSTER.pdf?dl=0):
 
     -   Tail modelling versus subclones
     -   Read counts analysis
@@ -214,23 +213,15 @@ Trieste, Italy*
 
 -   (Practice) Deconvolution in practice
 
-    -   MOBSTER and BMix with single-sample data
-    -   MOBSTER and VIBER with multi-region data.
+    -   MOBSTER runs with WGS data
 
--   Readings (same as previous lecture plus)
+-   Readings (https://www.dropbox.com/s/ijn3edftzys8bcy/readings.zip?dl=0)
 
+    -   Same as previous lecture
     -   Roth, Andrew, et al. “PyClone: statistical inference of clonal
         population structure in cancer.” Nature methods 11.4 (2014):
         396-398.
-    -   Gillis, Sierra, and Andrew Roth. “PyClone-VI: scalable inference
-        of clonal population structures using whole genome data.” BMC
-        bioinformatics 21.1 (2020): 1-16.
-    -   Miller, Christopher A., et al. “SciClone: inferring clonal
-        architecture and tracking the spatial and temporal patterns of
-        tumor evolution.” PLoS Comput Biol 10.8 (2014): e1003665.
-    -   Caravagna, Giulio, et al. “The MOBSTER R package for tumour
-        subclonal deconvolution from bulk DNA whole-genome sequencing
-        data.” BMC bioinformatics 21.1 (2020): 1-11.
+    -  Caravagna, et al., "Subclonal reconstruction of tumors by using machine learning and population genetics", Nature Genetics 52, 2020.
 
 ------------------------------------------------------------------------
 
