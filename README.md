@@ -248,7 +248,7 @@ Readings:
 
 ------------------------------------------------------------------------
 
-# Part 3 - Single-cell genomics transcriptomics
+# Part 3 - Single-cell sequencing
 
 ------------------------------------------------------------------------
 
@@ -256,42 +256,56 @@ Readings:
 
 **Lecture (R Bergamin, S Milite):** *Basics of Single-cell RNA analysis*
 
--   (Theory) Single-cell RNA analysis
+-   Theory (20 min):
+    
+    - Introduction to 10x single cell RNA sequencing
+    - Problems and opportunities
 
-    -   …
-    -   …
+-   Practice (1 hour):
 
--   (Practice) Seurat analysis
+    - Data format explanation
+    - Data QC 
+    - Batch Effects removal 
+    - Dimensionality Reduction
+    
+	Salvatore:
+    - Clustering and cell type assignments
+    - Signature enrichment
+    - Differential expression (DE)
 
-    -   …
-    -   …
+-  Readings:
+    - Luecken, Malte D., and Fabian J. Theis. “Current best practices in single‐cell RNA‐seq analysis: a tutorial.” Molecular systems biology 15.6 (2019): e8746.
+    - https://satijalab.org/seurat/articles/get_started.html
+    - https://ucdavis-bioinformatics-training.github.io/2019-single-cell-RNA-sequencing-Workshop-UCD_UCSF/
 
--   Readings
-
-    -   …
-    -   …
 
 ------------------------------------------------------------------------
 
 Lecture
 
-**Lecture (A Graudenzi):** *Longitudinal evolution from single cell*
+**Lecture (A Graudenzi, F Angaroni and D Maspero):** *Longitudinal evolution from single cell*
 
--   (Theory) Principles of evolution from single-cell
+-   Theory: Inference of phylogenies from single cell data
 
-    -   …
-    -   …
+    - Perfect phylogenies from categorical data: the Gusfield algorithm,
+    - Translating the perfect phylogeny problem as non-negative factorization (NMF)
+    - Technical noise (sequencing errors) and biological variability: the need for probabilistic models of clonal evolution.
+    - The likelihood function and the probabilistic graphical model of SCITE
+    - Estimation of the error rate
+    - Structure learning via MCMCd
+    - Extension: longitudinal models (LACE)
+    - Extension: modeling mutation losses (SIFIT)
+    - Extension: including population dynamics (SICLONEFIT)
 
--   (Practice) Inference in practice
-
-    -   …
-    -   …
-
+-   Practice:
+    - Application of LACE to real data (https://github.com/BIMIB-DISCo/LACE-UTILITIES)
+   
 -   Readings
-
-    -   …
-    -   …
-
+    - [Gusfield] “Efficient algorithms for inferring evolutionary trees” D. Gusifield 1991
+    - [SCITE] ”Tree inference for single-cell data” Janh et al. 2016
+    - [LACE] “Longitudinal cancer evolution from single cell” D. Ramazzotti et al. 2020
+    - [SIFIT] ”SiFit: inferring tumor trees from single-cell sequencing data under finite-sites models” H. Zafar et al. 2017
+    - [SICLONEFIT] ”SiCloneFit: Bayesian inference of population structure, genotype,and phylogeny of tumor clones from single-cell genome sequencing data” H. Zafaret al. 2019
 
 ------------------------------------------------------------------------
 
