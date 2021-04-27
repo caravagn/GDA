@@ -1,0 +1,393 @@
+---
+title: "GDA_lecture"
+author: "Riccardo Bergamin and Salvatore Milite"
+date: "25/4/2021"
+output: html_document
+---
+
+# Single cell genomics
+
+In the late "50s Francis Crick stated one of the most influencial explanation in the history of biology: the so called "Central Dogma of Molecular Biology".
+
+While the original meaning was associated mostly with the impossibility of a reverse information flow between protein and RNA/DNA level (that nowdays we know is not exately accurate). Currently, is always used to describe the forward information flow in a cell.
+
+Now, let us pretend that this simple schema is consistently true. Then, provided that we perfectly know the genomic sequence and how the DNA is transcribed into RNA (and then into proteins), we would be able to associate each genotype to a given phenotype (for us the phenotype is gonna be equal the final protein levels in a cell, note that this is a **very** lax definition of phenotype. 
+
+Turns out we are extremely ignorant about the nitty gritty details of genomic regulation. Moreover, the information content of the DNA (at least for what it regards transcription) is also encoded by more subtle sequence modifications (ex. methylation) and by changes in the structural proteins associated with nucleid acids (we usally need special type of sequencing to get those). 
+
+In the end, at least in our current timeline, we are not able to consistently predict protein levels from DNA alone. Luckily, we can go a step ahead in the Dogma and sequence the other intermediate produc, i.e. the RNA. From proteomics experiment we know that the final correlation between protein and RNA is quite high (even though not perfect as there are additional control mechanism) and obviously sequencing the RNA is way cheaper than sequencing directly the protein.
+
+Single-cell sequencing is a natural extention of those concepts, in which we basically meausure the abundance of a given molecule in each cell of our sample. 
+
+For today's lecture our focus is gonna be on RNA (even thoug consider that similar protocols exists for protein, DNA, etc...). In particular we are going to use PDAC (i.e. pancreas adenocarcinoma) data publicly available from [Steele et al](https://www.nature.com/articles/s43018-020-00121-4?elqTrackId=4e6f82f5d46b49b1a9acdc054a870966)
+
+## Loading libraries and dataset
+
+
+We are gonna use these libraries in order to visualize and analyze the data:
+
+
+*   Seurat (an integrated environment for scRNA-seq analysis)
+
+```{r, eval = F}
+start_time <- Sys.time()
+system.time(install.packages("Seurat"))
+```
+
+
+```{r, eval = F}
+
+download.file("https://www.dropbox.com/sh/pq4qzrywaja11l5/AAANcoCPPdBdrwy-c0xHH-dfa?dl=1", "./sc_data.zip")
+unzip("sc_data.zip")
+```
+
+As you can see therre are 4 total samples, 3 of them named PDAC_TISSUE are pancreatic biopses from patient with PDAC, the last one is a portion of healthy adjacent tissue
+
+```{r}
+list.dirs(".")
+```
+
+
+
+## Data Format
+
+The dataset file is in the Matrix Market format. This coordinate format is suitable for representing sparse matrices. The rownames correspond to genes and are stored in the "features.tsv.gz" file, while the column coordinates in the "barcodes.tsv.gz" file are the cell barcodes. The "matrix.mtx.gz" file contains the count matrix. The values in this matrix represent the number of molecules for each gene that are detected in each cell.
+We use the count matrix to create a Seurat object. This object contains the data, but also the results of our single cell analysis.
+
+```{r, eval  = TRUE}
+
+library(Seurat)
+
+# Load the sparse matrix for each tissue with Read10x function
+data_normal <- Read10X(data.dir = "./AdjNorm_TISSUE_1/filtered_feature_bc_matrix/")
+data_12 <- Read10X(data.dir = "./PDAC_TISSUE_12/filtered_feature_bc_matrix/")
+data_13 <- Read10X(data.dir = "./PDAC_TISSUE_13/filtered_feature_bc_matrix/")
+data_6 <- Read10X(data.dir = "./PDAC_TISSUE_6/filtered_feature_bc_matrix/")
+
+# Initialize the Seurat object with the raw data.
+PDAC_normal <- CreateSeuratObject(counts = data_normal, project = "AdjNorm_TISSUE_1", min.cells = 5, min.features = 300)
+PDAC_12 <- CreateSeuratObject(counts = data_12, project = "PDAC_TISSUE_12", min.cells = 5, min.features = 300)
+PDAC_13 <- CreateSeuratObject(counts = data_13, project = "PDAC_TISSUE_13", min.cells = 5, min.features = 300)
+PDAC_6 <- CreateSeuratObject(counts = data_6, project = "PDAC_TISSUE_6", min.cells = 5, min.features = 300)
+PDAC_6
+
+```
+One can extract the sparse matrix from the Seurat object with the command
+
+```{r, eval  = TRUE}
+
+PDAC_normal@assays$RNA@counts[1:10,1:10]
+
+```
+
+
+# Quality Check
+
+We illustrate the standard steps of pre-processing of a single-cell dataset with Seurat. These take into account the number of expressed genes in a cell, the total mRNA count and the mitochondrial contamination.
+Low-quality cells will often have very few genes and low total RNA count, while cell doublets or multiplets may exhibit an aberrantly high gene count. Moreover, dying cells often exhibit extensive mitochondrial contamination as the mRNA usually present in the cytoplasm is lost after the breakage of the cell membrane.
+We can calculate the mitochondrial contamination with the PercentageFeatureSet() function, which calculates the percentage of counts originating from a set of features. The set features starting with "MT-" correspond to the set of mitochondrial genes in human genomes.
+
+```{r, eval  = TRUE}
+
+# add mithocondrial percentage to the Seurat object
+PDAC_normal[["percent.mt"]] <- PercentageFeatureSet(PDAC_normal, pattern = "^MT-")
+PDAC_12[["percent.mt"]] <- PercentageFeatureSet(PDAC_12, pattern = "^MT-")
+PDAC_13[["percent.mt"]] <- PercentageFeatureSet(PDAC_13, pattern = "^MT-")
+PDAC_6[["percent.mt"]] <- PercentageFeatureSet(PDAC_6, pattern = "^MT-")
+
+```
+
+We can visualize the number of genes, the mRNA count and the mithocondrial percentage distribution of the dataset with the `VlnPlot()` function. Another usefull function is `FeatureScatter()` 
+
+```{r, eval  = TRUE}
+library(ggplot2)
+
+# Visualize QC metrics as a violin plot
+VlnPlot(PDAC_normal, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3) 
+FeatureScatter(PDAC_normal, feature1 = "nCount_RNA", feature2 = "nFeature_RNA") + xlim(1e4,1e5)
+VlnPlot(PDAC_12, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+VlnPlot(PDAC_13, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+VlnPlot(PDAC_6, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+```
+
+Or if you prefere to code it by yourself.
+
+```{r}
+library(dplyr)
+
+#scatterplot with nFeatures on the x axes, log(nGenes) on the y and coloured by mithocondrial percentage
+
+PDAC_normal@meta.data %>% ggplot(.,aes(x = nFeature_RNA, y = nCount_RNA , color = percent.mt)) + theme_bw() +
+  geom_point(size = 0.8, alpha = 0.3) + ggtitle( "QC scatterplot") + scale_color_gradient( low = "blue", 
+                            high = "red") + xlim(0,1000) + ylim(0, 1e4)
+
+
+```
+
+
+
+Using these plots, we can filter the outliers with the subset() function. For the present datasets we apply the following filters
+
+```{r, eval  = TRUE}
+
+PDAC_normal <- subset(PDAC_normal, subset = nFeature_RNA > 300 & nFeature_RNA < 9000 & nCount_RNA < 50000 & percent.mt < 20)
+PDAC_12 <- subset(PDAC_12, subset = nFeature_RNA > 300 & nCount_RNA < 60000 & percent.mt < 20)
+PDAC_13 <- subset(PDAC_13, subset = nFeature_RNA > 300 & nFeature_RNA < 7500  & nCount_RNA < 50000 & percent.mt < 20)
+PDAC_6 <- subset(PDAC_6, subset = nFeature_RNA > 300 & nCount_RNA < 9000 & nCount_RNA < 50000 & percent.mt < 20)
+
+```
+
+Now that we have done the QC we can merge the datasets and continue the analysis with a single object. Usually, when you have few samples it is more precise and suggested to run the QC step for each sample. Another elegant method is to perform the normalization step for each single dataset and then integrate them using anchor genes as in this [tutorial](https://satijalab.org/seurat/articles/integration_introduction.html).
+
+```{r, eval  = TRUE}
+
+# merging multiple Seurat objects
+ y = c(PDAC_12,PDAC_13,PDAC_6)
+ PDAC_merged <- merge(PDAC_normal, y)
+ 
+#add batch id as metadata
+samplename = PDAC_merged@meta.data$orig.ident
+
+batch_id = rep("Batch_1",length(samplename))
+batch_id[samplename %in% c("PDAC_TISSUE_12")] = "Batch_2"
+batch_id[samplename %in% c("PDAC_TISSUE_13")] = "Batch_3"
+batch_id[samplename %in% c("PDAC_TISSUE_6")] = "Batch_4"
+names(batch_id) = rownames(PDAC_merged@meta.data)
+
+PDAC_merged <- AddMetaData(
+  object = PDAC_merged,
+  metadata = batch_id,
+  col.name = "batch_id")
+ 
+```
+
+
+
+# Normalize the data
+
+After removing the outliers, for the subsequent analysis we need to normalize the data. We apply the "LogNormalize" method, where the gene expression for each cell is divided by the total expression, multiplied by a scale factor and log-transformed (log(x+1)). This step can be done with the NormalizeData() function.
+
+```{r, eval  = TRUE}
+
+PDAC_merged <- NormalizeData(PDAC_merged)
+
+```
+
+The result is saved in 
+
+```{r, eval  = TRUE}
+
+PDAC_merged[["RNA"]]@data
+
+```
+
+Counts are log transformed for two reasons: the first is to stabilize the variance. This is important when performing PCA on the gene expression matrix to find a reduced-dimensional representation that captures the variance. The second consideration for the log transform is that it converts multiplicative relative changes to additive differences. In the context of PCA, this allows for interpreting the projection axes in terms of relative, rather than absolute, abundances of genes.
+
+# Identify highly variable features
+
+We now calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in some cells, and lowly expressed in others). This helps to highlight biological signal in the dataset
+datasets and can be done with the `FindVariableFeatures()` function.
+
+```{r, eval  = TRUE}
+
+PDAC_merged <- FindVariableFeatures(PDAC_merged, selection.method = "vst", nfeatures = 2000)
+
+# Identify the 10 most highly variable genes for the normal tissue
+top10 <- head(VariableFeatures(PDAC_merged), 10)
+top10
+
+# plot variable features with labels
+VariableFeaturePlot(PDAC_merged) %>% LabelPoints(points = top10, repel = TRUE)
+
+```
+
+# Scale the Data
+
+Next, we apply a "scaling" transformation which is a standard step before using dimensional reduction methods. The expression of each gene is shifted such that the mean accross cells is 0. Than, the gene expression is scaled so that the variance accross cells is 1. 
+With these steps the highly expressed genes do not dominate in the PCA analysis and each gene contributes equally to cell differentiation. 
+Actually, this step is still today highly controversial, as many argue that the abundance of a gene itself is a proxy of its importance in cell type
+definition (as you can think of a minimum biological quantity of protein to get a significant effect).
+This can be done with the `ScaleData()` function.
+
+```{r, eval  = TRUE}
+
+PDAC_merged <- ScaleData(PDAC_merged, features = rownames(PDAC_merged))
+```
+
+The result is stored in 
+
+```{r, eval  = TRUE}
+
+PDAC_merged[["RNA"]]@scale.data[1:10, 1:10]
+
+```
+
+# Linear Dimensional Reduction
+
+Now we perform PCA, a linear dimensional reduction technique, using the scaled data. The original high dimensional feature representation based on gene expression is embedded in a lower dimensional space. This representation allows to perform several statistical tasks (clustering, differentiation trajectory inference,...). We use the highly variable features identified before, but PCA can also be defined by choosing a different subset of features if you wish.
+
+```{r, eval  = TRUE}
+
+PDAC_merged <- RunPCA(PDAC_merged, features = VariableFeatures(object = PDAC_merged))
+
+```
+
+You can visualize the results which define the PCA with `VizDimLoadings()`, `Dimplot()` and `DimHeatmap()`
+
+```{r, eval  = TRUE}
+
+VizDimLoadings(PDAC_merged, dims = 1:2, reduction = "pca")
+
+DimPlot(PDAC_merged, reduction = "pca")
+
+DimHeatmap(PDAC_merged, dims = 1:5, balanced = TRUE)
+
+```
+
+# Clustering Cells
+
+Cell clustering is useful to identify biological variability in your single cell dataset. The clustering algorithm employed by Seurat consits of two steps. First. it is constructed a KNN graph based on the euclidean distance in PCA space. This step is performed using the FindNeighbors() function, and takes as input the dimensionality of the dataset. To cluster the cells, we next apply modularity optimization techniques such as the Louvain algorithm (default) or SLM, to iteratively group cells together, with the goal of optimizing the standard modularity function of the graph. The `FindClusters()` function implements this procedure. The cell clusters can be obtained using the `Idents()` function.
+
+```{r, eval  = TRUE}
+
+PDAC_merged <- FindNeighbors(PDAC_merged, dims = 1:30)
+PDAC_merged <- FindClusters(PDAC_merged, resolution = 0.1)
+
+# Look at cluster IDs of the first 10 cells for a dataset
+
+head(Idents(PDAC_merged), 10)
+
+```
+
+# Non-linear Dimensional Reduction
+
+The goal of non-linear dimensional reduction algorithms is to learn the underlying manifold of the data in order to place similar cells together in a low-dimensional space. Cells which have been assigned to the same cluster should be close to each other on these plots. Seurat offers several non-linear dimensional reduction techniques, such as tSNE and UMAP.
+
+```{r, eval  = TRUE}
+
+# In this example we perform UMAP reduction
+PDAC_merged <- RunUMAP(PDAC_merged, dims = 1:30)
+
+#visualize with Dimplot
+DimPlot(PDAC_merged, reduction = "umap")
+DimPlot(PDAC_merged, reduction = "umap", group.by = "orig.ident")
+
+
+```
+
+# Cell type analysis 
+
+Interpreting the different clusters obtained after this process is inherently one of the most difficult part (which, nevertheless, provides the most biological significance) of every single cell analysis. The most common approach is to it by hand by examining the differentially expressed genes between them and try to find the associated cell type (by knowing it or searching in the literature/other datasets). 
+
+```{r}
+
+PDAC_markers <- FindAllMarkers(PDAC_merged, only.pos = TRUE, min.pct = 0.5, logfc.threshold = 0.5)
+
+top6 <- PDAC_markers %>% group_by(cluster) %>% top_n(n = 6, wt = avg_log2FC)
+DoHeatmap(PDAC_merged, features = top6$gene) + NoLegend()
+
+
+```
+
+IL8 is typical genes secreted by macrophages, and FTL and FTH1 are also known to be important in macrophages metabolism. As you can see this is a very tedius process.
+Luckily, in some cases we may already have the markers for the different cell types, as in this PDAC samples.
+
+```{r}
+
+markers <-  list(
+  'Epi'= c('KRT7','KRT8','KRT18','KRT19','EPCAM','CDH1'),
+  'T Cell'= c('CD3E','CD3G','CD3D','CD4','IL7R','CD8A','LEF1'),
+  'Myeloid'= c('CD14','ITGAM','MNDA','MPEG1','ITGAX', 'IRF7'),
+  'B Cell'= c('CD79A','MS4A1','CD19'),
+  'Fibroblast'= c('CDH11','PDGFRA','PDGFRB','ACTA2', 'RGS5'),
+  'RBC' = c('HBA1','HBB','HBA2'),
+  'NK'=c('NCR3','FCGR3A','NCAM1','KLRF1','KLRC1','CD38'),
+  'Endo'= c('CDH5'),
+  'Acinar' = c('SPINK1','AMY2A')
+)
+
+# We can a plot for each cell type group of markers
+FeaturePlot(PDAC_merged, features = markers$Epi)
+
+# Or better a dotplot with everything together
+DotPlot(PDAC_merged, features = markers) + RotatedAxis()
+
+# clusters 9 and 12 are not very clear let's look back at the heatmap above
+new.cluster.ids <- c("Epi", "TCells", "Myeloid","Myeloid", "NK", "Bcells", 
+    "Myeloid", "Fibroblast", "Epi",  "Myeloid" ,  "Acinar",  "Endo", "Myeloid",  "Epi",  "Epi" )
+
+names(new.cluster.ids) <-  0:14
+
+PDAC_merged <- RenameIdents(PDAC_merged, new.cluster.ids)
+
+DimPlot(PDAC_merged, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend()
+
+```
+
+Here we have annotated the clusters by hand, but there are different methods that try to do it automatically (check for example [cellassign](https://www.nature.com/articles/s41592-019-0529-1)). Modern approaches are trying to integrate big publicly available projects and atlases, such as the [Human Cell Atlas](https://www.humancellatlas.org/), to perform data projection over them and automatically assign cell type labels (ex. a cool approach to do this based on [autoencoders](https://www.biorxiv.org/content/10.1101/2020.07.16.205997v1)).
+
+
+# Differential expression and signature enrichment
+
+Once you have the cell types it becomes much easier to ask yourself meaningfully bological questions, In this tutorial we will se some very basic analysis that nonetheless provide useful results.
+First of all one can wonder what is the difference between TCells in normal and tumor tissue. To answer that we can try to find the genes that are differentially expressed betweem the Normal and tumor samples in the Tcell cluster. 
+Seurat provides a nice interface to perform differential expression testing, through the `FindMarker` function.
+
+```{r}
+
+PDAC_T <- PDAC_merged[,Idents(PDAC_merged) == "TCells"]
+
+Idents(PDAC_T) <- PDAC_T$orig.ident
+
+normal_markers_auc <- FindMarkers(PDAC_T, ident.1 = "AdjNorm_TISSUE_1", min.diff.pct = 0.25, test.use = "roc")
+
+#one can choose between several methods
+normal_markers_wil <- FindMarkers(PDAC_T, ident.1 = "AdjNorm_TISSUE_1",  min.diff.pct = 0.25, test.use = "wilcox")
+
+features <-  rownames(normal_markers_wil %>% arrange(-avg_log2FC))[1:5]
+
+# Ac ouple of nice visualization for markers
+# Ridge plot
+RidgePlot(PDAC_T, features = features)
+
+# Violin plot
+VlnPlot(PDAC_T, features = features)
+
+# Dotplot
+DotPlot(PDAC_T, features = features) + RotatedAxis()
+
+# Heatmap
+DoHeatmap(subset(PDAC_T, downsample = 100), features = features, size = 3)
+
+
+```
+
+# Batch Effect Correction
+
+Biological heterogeneity in single-cell RNA data is often confounded by technical factors like sequencing depth or uninteresting sources of variability like age and sex of the patients. For the next analysis we want to merge the datasets of different tissues and we would like to clean the data from possible confounding factors. We can merge different Seurat bjects with the following code
+
+Seurat allows to correct for sample to sample differences with the function `ScaleData()`:
+
+```{r, eval  = TRUE}
+
+# provide the variable to regress out and the regression model (linear in this case)
+
+PDAC_batch_corr <- ScaleData(PDAC_merged, vars.to.regress = c("batch_id"), model.use = "linear")
+
+```
+
+After the batch corrections one can perform dimensionality reduction by PCA and UMAP embedding 
+
+```{r, eval  = TRUE}
+
+# These are now standard steps in the Seurat workflow for visualization and clustering
+
+PDAC_batch_corr <- RunPCA(PDAC_batch_corr, verbose = FALSE)
+PDAC_batch_corr <- RunUMAP(PDAC_batch_corr, dims = 1:30, verbose = FALSE)
+
+PDAC_batch_corr <- FindNeighbors(PDAC_batch_corr, dims = 1:30, verbose = FALSE)
+PDAC_batch_corr <- FindClusters(PDAC_batch_corr, verbose = FALSE)
+DimPlot(PDAC_batch_corr, label = TRUE) + NoLegend()
+
+```
+
