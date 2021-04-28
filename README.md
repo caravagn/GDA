@@ -256,12 +256,12 @@ Readings:
 
 **Lecture (R Bergamin, S Milite):** *Basics of Single-cell RNA analysis*
 
--   Theory (20 min):
+-   Theory (https://www.dropbox.com/s/eq3b4omjpc25m3k/sc_tutorial.pdf?dl=0):
     
     - Introduction to 10x single cell RNA sequencing
     - Problems and opportunities
 
--   Practice (1 hour):
+-   Practice:
 
     - Data format explanation
     - Data QC 
