@@ -297,7 +297,7 @@ Lecture
     - Extension: modeling mutation losses (SIFIT)
     - Extension: including population dynamics (SICLONEFIT)
 
--   Practice:
+-   Practice (Data to download https://www.dropbox.com/s/sy8gadzjex8luhk/Melanoma.zip?dl=0):
     - Application of LACE to real data (https://github.com/BIMIB-DISCo/LACE-UTILITIES)
    
 -   Readings
