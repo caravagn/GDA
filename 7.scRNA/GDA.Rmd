@@ -228,7 +228,7 @@ Now we perform PCA, a linear dimensional reduction technique, using the scaled d
 
 ```{r, eval  = TRUE}
 
-PDAC_merged <- RunPCA(PDAC_merged, features = VariableFeatures(object = PDAC_merged))
+PDAC_merged <- RunPCA(PDAC_merged, features = VariableFeatures(object = PDAC_merged), verbose = F)
 
 ```
 
@@ -295,6 +295,7 @@ Luckily, in some cases we may already have the markers for the different cell ty
 ```{r}
 
 markers <-  list(
+  
   'Epi'= c('KRT7','KRT8','KRT18','KRT19','EPCAM','CDH1'),
   'T Cell'= c('CD3E','CD3G','CD3D','CD4','IL7R','CD8A','LEF1'),
   'Myeloid'= c('CD14','ITGAM','MNDA','MPEG1','ITGAX', 'IRF7'),
@@ -361,6 +362,72 @@ DoHeatmap(subset(PDAC_T, downsample = 100), features = features, size = 3)
 
 
 ```
+
+
+# Signature Enrichment
+
+Most of the times, more than in single genes we are interested in markers that provide a broader representation of a specific biological pathway. Usually in cancer we have some sets of genes that summarize important biological processes, a huge database of signatures can be found at [MsigDB](http://www.gsea-msigdb.org/gsea/msigdb/collection_details.jsp#C6). In our specific case we know from a massive volume of bulkRNA-seq publications that PDAC is usually present in 2 basic states: a classical (or ephitelial) state and a Basal (or mesenchymal) state. An hybrid state has also been frequently observed.
+A question that still does not have a clear answer is  if this phenotypes are specific for a patient or if subcluster of Basal and Classical cells are present in every patient (with different proportion driving the final phenotype). Here we will do a scoring based on the markers from [Moffit](https://www.nature.com/articles/ng.3398) (basically we compare the expression of a randmoly selected set of genes with our set of interest) and an Ephitelial to Mesenchymal transaction signature set.
+
+
+```{r, message=F, warning=F}
+
+moffit_markers <-  readr::read_csv2("./markers/moffit_human.csv") %>% select(Basal, Classical)
+
+PDAC_merged <- AddModuleScore(PDAC_merged, features = list(moffit_markers$Basal %>% na.omit()), name = "Basal_Score")
+PDAC_merged <- AddModuleScore(PDAC_merged, features = list(moffit_markers$Classical %>% na.omit()), name = "Classical_Score")
+
+EMT_markers <- readr::read_csv2("./markers/EMT_76GS.csv")[,1]
+
+PDAC_merged <- AddModuleScore(PDAC_merged, features = list(EMT_markers$Gene_Name %>% na.omit()), name = "EMT")
+
+
+FeaturePlot(PDAC_merged, features = c("Basal_Score1", "Classical_Score1", "EMT1"), split.by = "orig.ident")
+
+
+```
+
+
+# Cell cycle correction
+
+Cell cycle is one of the biggest biological confounders in scRNA-seq datasets. We can try a simple approach to classify cells in one of the 3 phases of the cell cycle (G1, S, G2/M). We first calculate a score as we have done before for gene sets typical of S and G2/M, and the we assign each state in this way:
+* if S score is higher than 0 and higher than G2/M than we assign the cell to S,
+* if G2/M score is higher than 0 and higher than S than we assign the cell to G2/M,
+* if both score are lower than 0 we assign the cell to G1.
+
+This proceure can be done automatically in Seurat.
+
+```{r}
+
+# A list of cell cycle markers, from Tirosh et al, 2015, is loaded with Seurat.
+s.genes <- cc.genes$s.genes
+g2m.genes <- cc.genes$g2m.genes
+
+
+PDAC_merged <- CellCycleScoring(PDAC_merged, s.features = s.genes, g2m.features = g2m.genes)
+
+# Cell cycle phase in a new metadata coloumn Phase
+DimPlot(PDAC_merged, group.by = "Phase")
+
+```
+
+Than we may decide to regress out the effects of the cell cycle. Beware that this decision can alter also the biological features we want to study (as a lot of biological conditions and processes correlate with cell-cycle) and so it must be done only when the cell cycle bias is truly troublesome.
+
+```{r}
+# First let's check if there is an cell cycle effect in our dataset
+PDAC_merged <- RunPCA(PDAC_merged, features = c(s.genes, g2m.genes), verbose = F)
+
+DimPlot(PDAC_merged, reduction = "pca", group.by = "Phase")
+
+# Now we can regress out the scores
+PDAC_merged <- ScaleData(PDAC_merged, vars.to.regress = c("S.Score", "G2M.Score"), features = rownames(PDAC_merged))
+
+
+PDAC_merged <- RunPCA(PDAC_merged, features = c(s.genes, g2m.genes), verbose = F)
+DimPlot(PDAC_merged, reduction = "pca", group.by = "Phase")
+
+```
+
 
 # Batch Effect Correction
 
