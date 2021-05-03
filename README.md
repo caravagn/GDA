@@ -256,12 +256,12 @@ Readings:
 
 **Lecture (R Bergamin, S Milite):** *Basics of Single-cell RNA analysis*
 
--   Theory (20 min):
+-   Theory (https://www.dropbox.com/s/eq3b4omjpc25m3k/sc_tutorial.pdf?dl=0):
     
     - Introduction to 10x single cell RNA sequencing
     - Problems and opportunities
 
--   Practice (1 hour):
+-   Practice:
 
     - Data format explanation
     - Data QC 
@@ -297,7 +297,7 @@ Lecture
     - Extension: modeling mutation losses (SIFIT)
     - Extension: including population dynamics (SICLONEFIT)
 
--   Practice:
+-   Practice (Data to download https://www.dropbox.com/s/sy8gadzjex8luhk/Melanoma.zip?dl=0):
     - Application of LACE to real data (https://github.com/BIMIB-DISCo/LACE-UTILITIES)
    
 -   Readings

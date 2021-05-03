@@ -1,0 +1,110 @@
+---
+title: "CONGAS"
+author: "Salvatore Milite"
+date: "5/3/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# CONGAS
+
+Congas is an automated tool for inferring possible Copy-Number alteration from scRNA-seq. It is based on Poisson Mixtures and performs joint clustering and inference of the different subpopulations in the dataset. 
+In this example we are going to replicate an analysis from the original (paper)[https://www.biorxiv.org/content/10.1101/2021.02.02.429335v2]. 
+The data comes from the (paper)[https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1645-z] of a similar tool, but that tries to genotype CNV using low-pass scDNA-seq.
+In particular we are analyzing a breast cancer patient-derived xenograft, where thanks to scDNA-seq we kow that there are 3 clones with prevalences of 82%, 11% and 7%. 
+
+
+We start by loading the data, luckily this is also the sample dataset present in the package (the original data can be found (here)[https://zenodo.org/record/2363826#.YBQHtsIo9hE] ).
+
+
+```{r data_loading}
+
+library(Rcongas)
+library(dplyr)
+
+input_data <- Rcongas::congas_example
+
+names(input_data)
+
+# Get just the raw counts
+input_counts <- input_data$data$gene_counts
+
+colnames(input_counts) <- make.unique(input_counts %>%  colnames())
+
+# We already did some filtering on the cell types, we are gonna just take those cells
+
+
+input_counts <- as.matrix(Rcongas:::preprocess_sc(mat = input_counts, filter_upper_quantile = T, perc_cells_gene_expr = 0.05,upper_quantile = 0.95))
+
+input_segmentation <- input_data$data$cnv
+
+input_segmentation %>% head()
+```
+
+
+After that we can calculate the comulative number of counts in each segment
+
+```{r input_prep}
+
+congas_input <- Rcongas::init(data = input_counts %>% t, cnv_data =  input_segmentation, reference_genome = "hg19", correct_bins = T)
+
+congas_input <- Rcongas:::filter_segments.rcongas(X = congas_input, filter_mu = 30)
+
+
+```
+
+Let's do a fast exploratory heatmap
+
+```{r, heatmap}
+
+# We try to normalize the data based on the library size and the ploidy
+
+pheatmap::pheatmap(((congas_input$data$counts / rowSums(congas_input$data$counts)) ) / congas_input$data$cnv$ploidy_real, show_rownames = F, show_colnames = T, cluster_cols = F, cutree_rows = 2)
+
+```
+
+```{r, fitting}
+
+set.seed(3)
+# Perform the inference
+res <- best_cluster(congas_input,model = "MixtureGaussian", clusters = 1:4, steps = 300, lr = 0.1, param_list = list("theta_scale" = 3.2, "theta_rate" = 1, "cnv_var" = 0.50) , method = "AIC",  MAP = T)
+#We may want to filter for small clusters
+#res_filt <-  filter_clusters(res, abundance = 0.03)
+
+```
+
+Let's take a look at the results 
+
+```{r, message=F, warning=F}
+plot_counts_rna_segments(res, z_score = TRUE)
+
+```
+
+We can also calculate differential expression, using Seurat.
+
+```{r, DE}
+
+library(Seurat)
+# a small trick to make seurat work
+res <- calculate_DE(res, (input_counts + 1 ) %>%  t, clone1 = "c1", clone2 = "c2", method = "DESeq2")
+
+plot_DE_volcano(res)
+```
+
+
+```{r}
+
+plot_chromosome(res, chr = 'chr15')
+
+plot_chromosome(res, chr = 'chr8')
+
+```
+
+
+
+
+
