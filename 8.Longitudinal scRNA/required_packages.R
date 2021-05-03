@@ -7,6 +7,8 @@ if (!require("dplyr")) install.packages('dplyr')
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 BiocManager::install("biomaRt")
+BiocManager::install("TRONCO")
+
 
 if (!require("devtools")) install.packages("devtools")
 devtools::install_github("BIMIB-DISCo/LACE", ref = "master")
