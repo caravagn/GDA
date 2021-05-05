@@ -285,7 +285,7 @@ Lecture
 
 **Lecture (A Graudenzi, F Angaroni and D Maspero):** *Longitudinal evolution from single cell*
 
--   Theory: Inference of phylogenies from single cell data
+-   Theory: Inference of phylogenies from single cell data (https://www.dropbox.com/s/isn7qgz1l661gax/Single-cell-phylo.pptx?dl=0)
 
     - Perfect phylogenies from categorical data: the Gusfield algorithm,
     - Translating the perfect phylogeny problem as non-negative factorization (NMF)
@@ -311,7 +311,7 @@ Lecture
 
 **Lecture (S Milite):** *Count-based models for single-cell data*
 
-- Theory (approx 75/80 min):
+- Theory (https://www.dropbox.com/s/6p8le8wesf2o6np/scRNA_seq_lesson.pdf?dl=0):
    - Generative modelling as an alternative to pipelines
    - Poisson and Negative binomial distributions
    - Count based modelling, RNA-seq vs scRNA-seq
@@ -321,7 +321,7 @@ Lecture
    - Elements of Gradient based variational inference
    - Discrete Latent Variable modelling
 
-- Practice (approx 20-30 min):
+- Practice:
    - Example run of CONGAS on breast cancer 10x dataset
 
 - Readings:
