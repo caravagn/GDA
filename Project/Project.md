@@ -155,7 +155,11 @@ little surival data to use.
 Survival analysis can be done following [this
 vignette](https://github.com/caravagn/revolver.misc/blob/master/vignette_survival_Breast_Yates_et_al/vignette_survival_Breast_Yates_et_al.md).
 Use `donor_survival_time` (number) and `donor_vital_status`
-(categorical) to predict survival.
+(categorical) to predict survival. A key difference from that vignette
+and this study, is that here you have surival data for the same patients
+you have REVOLVER clusters. In the other no, and an external dataset was
+used to classify patients based on the clusters’ enriched drivers. You
+can therefore avoid that part in your case study.
 
 # Assessment
 

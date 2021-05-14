@@ -65,7 +65,7 @@ You will perform survival analysis between pairs of REVOLVER clusters, and acros
 
 You might miss some patients where the data are not available in the 2018 release batch; try to see if  the more updated [repository](https://dcc.icgc.org/) has more recent data. To query the web portal, you will need to convert the 16 digits sample id to the ICGC one, using  columns `icgc_donor_id` and `aliquot_id` in the cohort metadata table. In general, you might have that for some groups you have little surival data to use.
 
-Survival analysis can be done following [this vignette](https://github.com/caravagn/revolver.misc/blob/master/vignette_survival_Breast_Yates_et_al/vignette_survival_Breast_Yates_et_al.md). Use `donor_survival_time` (number) and `donor_vital_status` (categorical) to predict survival. 
+Survival analysis can be done following [this vignette](https://github.com/caravagn/revolver.misc/blob/master/vignette_survival_Breast_Yates_et_al/vignette_survival_Breast_Yates_et_al.md). Use `donor_survival_time` (number) and `donor_vital_status` (categorical) to predict survival. A key difference from that vignette and this study, is that here you have surival data for the same patients you have REVOLVER clusters. In the other no, and an external dataset was used to classify patients based on the clusters' enriched drivers. You can therefore avoid that part in your case study. 
 
 # Assessment
 
