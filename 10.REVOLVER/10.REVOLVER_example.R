@@ -5,18 +5,23 @@ setwd("10.REVOLVER/")
 ############ ############ ############ ############ ############ ############  
 # Part 1 - playing with REVOLVER
 ############ ############ ############ ############ ############ ############ 
+# devtools::install_github('caravagnalab/revolver')
 library(revolver)
 
 # Get data from the paper: install.github("caravagn/evoverse.datasets")
 data('TRACERx_NEJM_2017_REVOLVER', package = 'evoverse.datasets')
 
+TRACERx_NEJM_2017_REVOLVER
+
 TRACERx_NEJM_2017_REVOLVER %>% plot
 
-TRACERx_NEJM_2017_REVOLVER$dataset$CRUK0002
+TRACERx_NEJM_2017_REVOLVER$dataset$CRUK0002 %>% View
 
 # Refit the cohort
 options(easypar.parallel = FALSE)
+
 refit = revolver_fit(TRACERx_NEJM_2017_REVOLVER)
+
 refit = revolver_cluster(refit)
 
 # Inspect some data plot
@@ -43,27 +48,25 @@ revolver::plot_dendrogram(refit)
 # Part 2 - cluster enrichment and survival analysis 
 ############ ############ ############ ############ ############ ############ 
 
-# Revolver input dataset
-breast_fit = revolver_cohort(evoverse.datasets::YATES_BREAST_NATMED_2015 %>% 
-                               filter(!(patientID %in% c('PD14779a'))), 
-                             MIN.CLUSTER.SIZE = 0, 
-                             annotation = "Yates breast cancer data (multi-region)")
-
-# breast_fit = remove_patients(breast_fit, 'PD14779a')
-
-# Build trees and fit the data
-breast_fit = breast_fit %>% compute_clone_trees(sspace.cutoff = 1000, 
-                                                n.sampling = 500, 
-                                                store.max = 100)
-breast_fit = breast_fit %>% revolver_fit()
-
-# Cluster
-breast_fit = breast_fit %>% revolver_cluster()
-
+# # Revolver input dataset
+# breast_fit = revolver_cohort(evoverse.datasets::YATES_BREAST_NATMED_2015 %>% 
+#                                filter(!(patientID %in% c('PD14779a'))), 
+#                              MIN.CLUSTER.SIZE = 0, 
+#                              annotation = "Yates breast cancer data (multi-region)")
+# 
+# # breast_fit = remove_patients(breast_fit, 'PD14779a')
+# 
+# # Build trees and fit the data
+# breast_fit = breast_fit %>% compute_clone_trees(sspace.cutoff = 1000, 
+#                                                 n.sampling = 500, 
+#                                                 store.max = 100)
+# breast_fit = breast_fit %>% revolver_fit()
+# 
+# # Cluster
+# breast_fit = breast_fit %>% revolver_cluster()
 
 load('Breast-cancer-survival.RData', verbose = TRUE)
 names(test.set)
-
 
 # Inspect the data
 tibble::as_tibble(test.set$data)
@@ -312,7 +315,6 @@ corrplot::corrplot(p.value,
          cl.cex = 1, 
          tl.col = "black",
          mar = c(0,0,1,0))
-```
 
 
 # Survival Analysis - We carry this out with two standard packages.
